@@ -4,9 +4,6 @@ import { Link } from "react-scroll";
 function Navbar() {
   return (
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">
-        Navbar
-      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -22,54 +19,72 @@ function Navbar() {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <Link
-              activeClass="active"
-              to=""
-              spy={true}
-              smooth={true}
-              offset={50}
-              duration={500}
-            >
-              Home
-            </Link>
+            <a class="nav-link">
+              <Link
+                activeClass="active"
+                to=""
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                Home
+              </Link>
+            </a>
           </li>
           <li class="nav-item">
-            <Link
-              activeClass="active"
-              to="about"
-              spy={true}
-              smooth={true}
-              offset={50}
-              duration={500}
-            >
-              About
-            </Link>
+            <a class="nav-link">
+              <Link
+                activeClass="active"
+                to="about"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                About
+              </Link>
+            </a>
           </li>
           <li class="nav-item dropdown">
-            <Link
-              activeClass="active"
-              to="join"
-              spy={true}
-              smooth={true}
-              offset={50}
-              duration={500}
-            >
-              Join
-            </Link>
+            <a class="nav-link">
+              <Link
+                activeClass="active"
+                to="join"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                Join
+              </Link>
+            </a>
           </li>
           <li class="nav-item">
-            <Link
-              activeClass="active"
-              to="contact"
-              spy={true}
-              smooth={true}
-              offset={50}
-              duration={500}
-            >
-              Contact
-            </Link>
+            <a class="nav-link">
+              <Link
+                activeClass="active"
+                to="contact"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                Contact
+              </Link>
+            </a>
           </li>
-          <li class="nav-item">Login</li>
+          <li class="nav-item">
+            <a
+              class="nav-link "
+              data-toggle="collapse"
+              data-target="#navbarToggleExternalContent"
+              aria-controls="navbarToggleExternalContent"
+              aria-expanded="false"
+            >
+              Login
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
