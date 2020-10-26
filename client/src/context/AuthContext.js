@@ -8,6 +8,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [update, setUpdate] = useState(false);
   const [currentUser, setCurrentUer] = useState();
   const [loading, setLoading] = useState(true);
   const login = (email, password) => {
@@ -23,8 +24,7 @@ export const AuthProvider = ({ children }) => {
       setCurrentUer(user);
     });
     return unsubscribe;
-  }, []);
-
+  }, [update]);
   const value = {
     currentUser,
     login,

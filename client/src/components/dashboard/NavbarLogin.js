@@ -15,6 +15,8 @@ function NavbarLogin() {
     try {
       setError("");
       setLoading(true);
+      console.log(emailRef.current.value);
+      console.log(passwordRef.current.value);
       await login(emailRef.current.value, passwordRef.current.value);
       history.push("/");
     } catch (error) {

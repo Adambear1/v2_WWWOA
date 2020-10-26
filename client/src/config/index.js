@@ -1,15 +1,16 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const app = firebase.initializeApp({
-  apiKey: process.env.REACT_APP_DB_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_DB_URL,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_ID,
-});
-
-export const auth = app.auth();
-export default app;
+if (!firebase.apps.length) {
+  const apps = firebase
+    .initializeApp({
+      apiKey: "AIzaSyCT1TK7I2Hd4mstDHGg8qwI5hlSoMEUN1k",
+      authDomain: "fir-oa-67436.firebaseapp.com",
+      databaseURL: "https://fir-oa-67436.firebaseio.com",
+      projectId: "fir-oa-67436",
+      storageBucket: "fir-oa-67436.appspot.com",
+      messagingSenderId: "559638877699",
+      appId: "1:559638877699:web:1d8e8a8955675f1ca42036",
+    })
+    .auth();
+}
