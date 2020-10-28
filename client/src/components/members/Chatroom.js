@@ -1,63 +1,104 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import io from "socket.io-client";
+import "./styles.css";
+import { useAuth } from "../../context/AuthContext";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:4000");
 function Chatroom() {
-  const [state, setState] = useState({ message: "", name: "" });
+  const [DBA, setDBA] = useState("");
+  const { currentUser } = useAuth();
+  const [users, setUsers] = useState([]);
   const [chat, setChat] = useState([]);
-  useEffect(() => {
-    socket.on("message", ({ name, message }) => {
-      setChat([...chat, { name, message }]);
-    });
-  }, []);
-  const onTextChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
+  const nameRef = useRef();
+  const messageRef = useRef();
+  const username = "Adam";
+  const room = "General";
 
-  const onMessageSubmit = (e) => {
+  socket.on("message", (message) => {
+    console.log(message);
+    setChat([...chat, message]);
+    document.querySelectorAll(
+      ".chat-messages"
+    )[0].scrollTop = document.querySelectorAll(
+      ".chat-messages"
+    )[0].scrollHeight;
+  });
+
+  const leaveRoom = (e) => {
     e.preventDefault();
-    const { name, message } = state;
-    socket.emit("message", { name, message });
-    setState({ message: "", name });
+    socket.emit("leaveRoom", { username: currentUser.email });
   };
 
-  const renderChat = () => {
-    return chat.map(({ name, message }, index) => {
-      <div key={index}>
-        <h3>
-          {name}: <span>{message}</span>
-        </h3>
-      </div>;
+  const onMessageSubmit = async (e) => {
+    e.preventDefault();
+
+    await socket.emit("chatMessage", {
+      name: currentUser.email || DBA,
+      message: messageRef.current.value,
     });
+
+    messageRef.current.value = "";
   };
 
   return (
-    <div>
-      <form onSubmit={onMessageSubmit}>
-        <div className="name-field">
-          <input
-            name="name"
-            className="form-control"
-            type="text"
-            onChange={(e) => onTextChange(e)}
-            value={state.name}
-          />
-          <textarea
-            name="message"
-            type="textarea"
-            className="form-control"
-            rows="5"
-            onChange={(e) => onTextChange(e)}
-            value={state.message}
-          />
+    <div
+      class="modal fade"
+      id="chatModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chatModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Modal title
+            </h5>
+            <button
+              type="button"
+              class="close"
+              onClick={leaveRoom}
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form onSubmit={onMessageSubmit}>
+              <div className="name-field">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={currentUser.email}
+                />
+                <textarea
+                  name="message"
+                  type="textarea"
+                  className="form-control"
+                  rows="5"
+                  ref={messageRef}
+                />
+              </div>
+              <button type="submit" className="btn btn-light">
+                Send Message
+              </button>
+            </form>
+            <div className="render-chat">
+              <h1>Chat Log</h1>
+              <div className="chat-messages">
+                {chat.map(({ name, message }, index) => (
+                  <div key={index}>
+                    <h3>
+                      {name}: <span>{message}</span>
+                    </h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <button type="submit" className="btn btn-light">
-          Send Message
-        </button>
-      </form>
-      <div className="render-chat">
-        <h1>Chat Log</h1>
-        {renderChat()}
       </div>
     </div>
   );

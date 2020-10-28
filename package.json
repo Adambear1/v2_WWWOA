@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "start:prod": "node server.js",
+    "start": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "start:prod": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
@@ -27,7 +27,10 @@
   "homepage": "https://github.com/Adambear1/v2_WWWOA#readme",
   "dependencies": {
     "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "helmet": "^4.1.1",
+    "moment": "^2.29.1",
     "socket.io": "^2.3.0"
   }
 }
