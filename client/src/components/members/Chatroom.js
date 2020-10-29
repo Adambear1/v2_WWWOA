@@ -14,14 +14,17 @@ function Chatroom() {
   const username = "Adam";
   const room = "General";
 
-  socket.on("message", (message) => {
-    console.log(message);
-    setChat([...chat, message]);
-    document.querySelectorAll(
-      ".chat-messages"
-    )[0].scrollTop = document.querySelectorAll(
-      ".chat-messages"
-    )[0].scrollHeight;
+  useEffect(() => {
+    socket.on("message", (message) => {
+      console.log(chat);
+      console.log(message);
+      setChat([...chat, message]);
+      document.querySelectorAll(
+        ".chat-messages"
+      )[0].scrollTop = document.querySelectorAll(
+        ".chat-messages"
+      )[0].scrollHeight;
+    });
   });
 
   const leaveRoom = (e) => {
@@ -77,7 +80,7 @@ function Chatroom() {
                   name="message"
                   type="textarea"
                   className="form-control"
-                  rows="5"
+                  rows="3"
                   ref={messageRef}
                 />
               </div>
@@ -88,11 +91,11 @@ function Chatroom() {
             <div className="render-chat">
               <h1>Chat Log</h1>
               <div className="chat-messages">
-                {chat.map(({ name, message }, index) => (
+                {chat.map(({ name, message, color }, index) => (
                   <div key={index}>
-                    <h3>
+                    <p className={`chat-msg ${color && color}`}>
                       {name}: <span>{message}</span>
-                    </h3>
+                    </p>
                   </div>
                 ))}
               </div>

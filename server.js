@@ -21,7 +21,9 @@ app.use(cors());
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username }) => {
+    socket.connected();
     io.emit("message", {
+      color: "green",
       name: "Admin",
       message: `${username} Has Joined The Chat!`,
     });
@@ -31,11 +33,13 @@ io.on("connection", (socket) => {
     console.log(name);
     io.emit("message", { name, message });
   });
-
-  socket.on("leaveRoom", ({ username }) => {
-    io.emit("message", {
-      name: "Admin",
-      message: `${username} Has Left The Chat `,
+  socket.on("disconnect", () => {
+    socket.on("leaveRoom", ({ username }) => {
+      io.emit("message", {
+        color: "red",
+        name: "Admin",
+        message: `${username} Has Left The Chat `,
+      });
     });
   });
 });
