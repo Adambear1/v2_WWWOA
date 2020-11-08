@@ -21,7 +21,7 @@ app.use(cors());
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username }) => {
-    const user = userJoin(socket.id, username);
+    // const user = userJoin(socket.id, username);
     io.emit("message", { name: "Admin", message: "Welcome to Chat!" });
     io.emit("message", {
       color: "green",
