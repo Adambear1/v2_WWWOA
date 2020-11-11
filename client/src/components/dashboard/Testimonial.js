@@ -3,7 +3,7 @@ import React from "react";
 function Testimonial() {
   return (
     <div>
-      <div class="card testimonial-card">
+      <div class="card testimonial-card animate__animated animate__fadeInTopRight">
         <h2 class="card-header">Quote</h2>
         <div class="card-body">
           <blockquote class="blockquote mb-0">

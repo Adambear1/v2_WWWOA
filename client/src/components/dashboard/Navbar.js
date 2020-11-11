@@ -46,6 +46,20 @@ function Navbar() {
               </Link>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <Link
+                activeClass="active"
+                to="history"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                History
+              </Link>
+            </a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link">
               <Link

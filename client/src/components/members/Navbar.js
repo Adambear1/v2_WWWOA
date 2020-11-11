@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-scroll";
+import io from "socket.io-client";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-scroll";
 import { Link as HistoryLink, useHistory } from "react-router-dom";
+const socket = io.connect("http://localhost:4000");
 
 function Navbar() {
   const { logout } = useAuth();
   const history = useHistory();
+  const { currentUser } = useAuth();
+  const joinChat = () => {
+    socket.emit("joinRoom", { username: currentUser.email });
+  };
   const onLogout = async (e) => {
     e.preventDefault();
     try {
@@ -42,6 +48,16 @@ function Navbar() {
               >
                 Home
               </Link>
+              <Link
+                activeClass="active"
+                to="members"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+              >
+                Members
+              </Link>
             </a>
           </li>
           <li class="nav-item">
@@ -54,22 +70,19 @@ function Navbar() {
                 offset={50}
                 duration={500}
               >
-                About
+                Meetings
               </Link>
             </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link">
-              <Link
-                activeClass="active"
-                to="join"
-                spy={true}
-                smooth={true}
-                offset={50}
-                duration={500}
+              <li
+                data-toggle="modal"
+                data-target="#chatModal"
+                onClick={joinChat}
               >
-                Join
-              </Link>
+                Chat Room
+              </li>
             </a>
           </li>
           <li class="nav-item">
@@ -82,7 +95,7 @@ function Navbar() {
                 offset={50}
                 duration={500}
               >
-                Contact
+                Rule Changes
               </Link>
             </a>
           </li>

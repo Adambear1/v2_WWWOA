@@ -42,8 +42,42 @@
     font-weight: 400;
 }
 
-.about-card, .testimonial-card {
+.about-card, .testimonial-card, .join-card, .history-card, .contact-card{
     background-color: rgba(51, 51, 51, 0.3);
     border: 1px solid rgb(44, 44, 44) !important;
     color: rgba(241, 241, 241, 0.8)
 }
+
+#menu-ul {
+    list-style-type: none;
+    display: flex;
+    align-items: stretch; /* Default */
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#menu li {
+    list-style-type: none;
+    padding: 0 30px;
+    display:inline;
+    flex: 0 1 auto; /* Default */
+    list-style: none;
+    background: #fafafa;
+}
+
+#menu-li-a, #menu-li i {
+    font-size: x-large;
+}
+#menu-li-a {
+    color: rgba(241, 241, 241, 0.8) !important;
+    
+}
+
+#menu-li i{
+    margin-right: 10px
+}
+#menu-li-a:active {
+    color: rgba(241, 241, 241, 0.8) !important
+}
+

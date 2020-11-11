@@ -3,7 +3,10 @@ import React from "react";
 function About() {
   return (
     <>
-      <div class="card about-card">
+      <div
+        class="card about-card animate__animated animate__fadeInTopLeft"
+        id="about"
+      >
         <h2 class="my-3">About</h2>
         <div class="card-body">
           Lorem Ipsum is simply dummy text of the printing and typesetting
