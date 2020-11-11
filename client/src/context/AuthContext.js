@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth } from "../config";
+import { auth, db } from "../config";
 
 const AuthContext = createContext();
 
@@ -16,6 +16,18 @@ export function AuthProvider({ children }) {
   function login(email, password) {
     setCurrentUser({ email, password });
     return auth.signInWithEmailAndPassword(email, password);
+  }
+
+  function getUsers() {
+    let arr = [];
+    return db.getInstance();
+    // db.ref().on("value", (snapshot) => {
+    //   let obj = snapshot.val().members;
+    //   for (var key in obj) {
+    //     arr.push({ email: obj[key].email, name: obj[key].name, _id: key });
+    //   }
+    // });
+    // return arr;
   }
 
   function logout() {
@@ -45,6 +57,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     login,
+    getUsers,
     signup,
     logout,
     resetPassword,
