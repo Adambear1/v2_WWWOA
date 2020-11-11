@@ -1,13 +1,49 @@
 .jumbotron{
-    background-color: rgba(41, 41, 41, 0.8) !important;
-    border: 2px solid black;
+    background: url("./assets/wrestling.jpg"); 
+    height: 400px;
+    object-fit: contain !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(2px);
+    border: 2px solid rgb(56, 56, 56);
+}
+.jumbotron::after{
+    content: "";
+    top: 0px !important;
+    left: 0px !important;
+    margin-top: 0px;
+    height: 400px;
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0,0,0,.5);
+}
+.container{
+    /* position: absolute !important; */
+    left: 0%;
+    right: -90px;
+    width: 100%;
+    text-align:  center;
+    top: 200px; 
 }
 .jumbotron-header-text {
     color: red;
-    text-shadow: rgb(128, 0, 0) 1px 1px 2px;
-    font-weight: 400;
+    text-shadow: rgb(209, 0, 0) 1px 1px .5px;
+    size: 300px;
+    font-weight: 700;
+
+  
 }
+
 .jumbotron-body-text {
     color: rgb(124, 124, 124);
+    text-shadow: white .5px .5px 1px;
     font-weight: 400;
+}
+
+.about-card, .testimonial-card {
+    background-color: rgba(51, 51, 51, 0.3);
+    border: 1px solid rgb(44, 44, 44) !important;
+    color: rgba(241, 241, 241, 0.8)
 }

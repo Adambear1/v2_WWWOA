@@ -3,6 +3,7 @@ import "./styles.css";
 import Navbar from "../components/dashboard/Navbar";
 import NavbarLogin from "../components/dashboard/NavbarLogin";
 import Jumbotron from "../components/dashboard/Jumbotron";
+import Body from "../components/dashboard/Body";
 
 function Dashboard() {
   return (
@@ -10,6 +11,7 @@ function Dashboard() {
       <Navbar />
       <NavbarLogin />
       <Jumbotron />
+      <Body />
     </>
   );
 }
