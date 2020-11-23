@@ -31,15 +31,7 @@
     color: red;
     text-shadow: rgb(209, 0, 0) 1px 1px .5px;
     size: 300px;
-    font-weight: 700;
-
-  
-}
-
-.jumbotron-body-text {
-    color: rgb(124, 124, 124);
-    text-shadow: white .5px .5px 1px;
-    font-weight: 400;
+    font-weight: 700; 
 }
 
 .about-card, .testimonial-card, .join-card, .history-card, .contact-card{

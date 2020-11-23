@@ -1,11 +1,20 @@
 import React from "react";
 
 function History() {
+  const enlarge = (e) => {
+    e.preventDefault();
+    e.target.style.transform = "scale(1.10)";
+  };
+  const resize = (e) => {
+    e.target.style.transform = "scale(1)";
+  };
   return (
     <>
       <div
         class="card history-card animate__animated animate__fadeInLeft"
         id="history"
+        onMouseOver={enlarge}
+        onMouseLeave={resize}
       >
         <h2 class="my-3">History</h2>
         <div class="card-body">
