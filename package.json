@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/Adambear1/MollysHops#readme",
   "dependencies": {
-    "concurrently": "*",
     "config": "^3.3.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -37,7 +36,7 @@
     "socket.io": "^3.0.3"
   },
   "devDependencies": {
-    "concurrently": "^4.1.2",
+    "concurrently": "^5.3.0",
     "nodemon": "^1.19.4"
   }
 }
