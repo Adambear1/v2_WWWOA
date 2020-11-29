@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Adambear1/MollysHops#readme",
   "dependencies": {
+    "concurrently": "*",
     "config": "^3.3.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
