@@ -1,6 +1,6 @@
 const app = require("express")();
 const path = require("path");
-const PORT = 4000 || process.env.PORT;
+const PORT = process.env.PORT || 4000;
 const http = require("http").createServer(app);
 const helmet = require("helmet");
 const cors = require("cors");
