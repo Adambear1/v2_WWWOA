@@ -3,6 +3,8 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
+import "./styles.css"
+
 function NavbarLogin() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -46,9 +48,10 @@ function NavbarLogin() {
               placeholder="Password"
             />
           </div>
-          <button type="submit" class="btn btn-secondary" onClick={onSubmit}>
-            <Link to="/members">Login</Link>
+          <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit} disabled="true">
+            {/* <Link to="/members" style={{color: "white"}}>Login</Link> */}Login
           </button>
+        
         </form>
       </div>
     </div>

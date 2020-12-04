@@ -33,7 +33,9 @@
     size: 300px;
     font-weight: 700; 
 }
-
+.jumbotron-body-text{
+    color: rgba(218, 218, 218, 0.521);
+}
 .about-card, .testimonial-card, .join-card, .history-card, .contact-card{
     background-color: rgba(51, 51, 51, 0.3);
     border: 1px solid rgb(44, 44, 44) !important;
@@ -73,3 +75,18 @@
     color: rgba(241, 241, 241, 0.8) !important
 }
 
+/* 
+ */
+
+ .link-to-site{
+     color: #9A9DA0 !important;
+ }
+ .link-to-site:hover{
+     cursor: pointer;
+     text-decoration: none;
+     text-decoration-color: none;
+ }
+
+ .btn-currently-disabled:hover {
+    cursor: not-allowed;
+ }

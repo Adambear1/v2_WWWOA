@@ -21,12 +21,13 @@ function Navbar() {
           <li class="nav-item active">
             <a class="nav-link">
               <Link
+                className="link-to-site"
                 activeClass="active"
                 to=""
                 spy={true}
                 smooth={true}
                 offset={50}
-                duration={500}
+                duration={750}
               >
                 Home
               </Link>
@@ -35,12 +36,13 @@ function Navbar() {
           <li class="nav-item">
             <a class="nav-link">
               <Link
+                className="link-to-site"
                 activeClass="active"
                 to="about"
                 spy={true}
                 smooth={true}
                 offset={50}
-                duration={500}
+                duration={750}
               >
                 About
               </Link>
@@ -49,12 +51,13 @@ function Navbar() {
           <li class="nav-item">
             <a class="nav-link">
               <Link
+                className="link-to-site"
                 activeClass="active"
                 to="history"
                 spy={true}
                 smooth={true}
                 offset={50}
-                duration={500}
+                duration={750}
               >
                 History
               </Link>
@@ -63,12 +66,13 @@ function Navbar() {
           <li class="nav-item dropdown">
             <a class="nav-link">
               <Link
+                className="link-to-site"
                 activeClass="active"
                 to="join"
                 spy={true}
                 smooth={true}
                 offset={50}
-                duration={500}
+                duration={750}
               >
                 Join
               </Link>
@@ -77,12 +81,13 @@ function Navbar() {
           <li class="nav-item">
             <a class="nav-link">
               <Link
+                className="link-to-site"
                 activeClass="active"
                 to="contact"
                 spy={true}
                 smooth={true}
                 offset={50}
-                duration={500}
+                duration={750}
               >
                 Contact
               </Link>
@@ -90,7 +95,7 @@ function Navbar() {
           </li>
           <li class="nav-item">
             <a
-              class="nav-link "
+              class="nav-link link-to-site"
               data-toggle="collapse"
               data-target="#navbarToggleExternalContent"
               aria-controls="navbarToggleExternalContent"
