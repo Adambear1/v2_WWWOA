@@ -18,9 +18,9 @@ export function AuthProvider({ children }) {
     return auth.signInWithEmailAndPassword(email, password);
   }
 
-  function getUsers() {
-    let arr = [];
-    return db.getInstance();
+  // function getUsers() {
+  //   let arr = [];
+  //   return db.getInstance();
     // db.ref().on("value", (snapshot) => {
     //   let obj = snapshot.val().members;
     //   for (var key in obj) {
@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
     //   }
     // });
     // return arr;
-  }
+  // }
 
   function logout() {
     return auth.signOut();
