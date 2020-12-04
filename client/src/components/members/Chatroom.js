@@ -16,6 +16,7 @@ function Chatroom() {
   useEffect(() => {
     try {
       if (currentUser.email === undefined)
+        console.log(process.env)
         window.location.replace("http://localhost:3000");
       setLoaded(true);
     } catch (error) {
