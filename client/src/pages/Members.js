@@ -9,7 +9,7 @@ function Members() {
     <>
       <Navbar />
       <div className="container">
-        <MembersList />
+        {/* <MembersList /> */}
         <Chatroom />
       </div>
       <Footer />
