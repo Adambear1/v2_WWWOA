@@ -4,7 +4,8 @@ const PORT = process.env.PORT || 4000;
 const http = require("http").createServer(app);
 const helmet = require("helmet");
 const cors = require("cors");
-const io = require("socket.io")(http);
+const io = require('socket.io')(http)
+io.origins('*:*') // for latest version
 const formatMessage = require("./utils/Messages");
 const {
   userJoin,

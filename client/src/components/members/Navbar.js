@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-scroll";
 import { Link as HistoryLink, useHistory } from "react-router-dom";
-const socket = io.connect("http://localhost:4000");
+const socket = process.env.NODE_ENV === "production" ? io.connect("https://wwwoa-297919.wm.r.appspot.com:4000") : io.connect("http://localhost:4000");
 
 function Navbar() {
   const { logout } = useAuth();

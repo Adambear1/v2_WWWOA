@@ -48,9 +48,16 @@ function NavbarLogin() {
               placeholder="Password"
             />
           </div>
-          <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit} disabled="true">
-            {/* <Link to="/members" style={{color: "white"}}>Login</Link> */}Login
-          </button>
+          {process.env.NODE_ENV === "production" ? 
+                <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit} disabled="true">
+                  Login
+                </button> 
+                : 
+                <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit}>
+                  <Link to="/members" style={{color: "white"}}>Login</Link>
+                </button>  
+        }
+          
         
         </form>
       </div>
