@@ -5,7 +5,7 @@ const http = require("http").createServer(app);
 const helmet = require("helmet");
 const cors = require("cors");
 const io = require("socket.io")(http);
-io.origins("*:*"); // for latest version
+
 const formatMessage = require("./utils/Messages");
 const {
   userJoin,
@@ -17,6 +17,17 @@ const {
 // MW
 app.use(helmet());
 app.use(cors());
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://www.localhost:3000 http://www.localhost:3000/members"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // Socket
 

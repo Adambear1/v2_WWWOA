@@ -10,54 +10,86 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
   function login(email, password) {
-    setCurrentUser({ email, password });
-    return auth.signInWithEmailAndPassword(email, password);
+    try {
+      setCurrentUser({ email, password });
+      return auth.signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      setError(err);
+    }
   }
 
-  // function getUsers() {
-  //   let arr = [];
-  //   return db.getInstance();
-    // db.ref().on("value", (snapshot) => {
-    //   let obj = snapshot.val().members;
-    //   for (var key in obj) {
-    //     arr.push({ email: obj[key].email, name: obj[key].name, _id: key });
-    //   }
-    // });
-    // return arr;
-  // }
+  function getUsers() {
+    let arr = [];
+    db.getInstance();
+    db.ref().on("value", (snapshot) => {
+      let obj = snapshot.val().members;
+      for (var key in obj) {
+        arr.push({ email: obj[key].email, name: obj[key].name, _id: key });
+      }
+    });
+    return arr;
+  }
 
   function logout() {
-    return auth.signOut();
+    try {
+      return auth.signOut();
+    } catch (err) {
+      setError(err);
+    }
   }
 
   function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
+    try {
+      return auth.sendPasswordResetEmail(email);
+    } catch (err) {
+      setError(err);
+    }
   }
 
   function updateEmail(email) {
-    return currentUser.updateEmail(email);
+    try {
+      return currentUser.updateEmail(email);
+    } catch (err) {
+      setError(err);
+    }
   }
 
   function updatePassword(password) {
-    return currentUser.updatePassword(password);
+    try {
+      return currentUser.updatePassword(password);
+    } catch (err) {
+      setError(err);
+    }
+  }
+
+  function setErr(err) {
+    return setError(err);
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setLoading(false);
-      setCurrentUser(user);
-    });
-    return unsubscribe;
+    try {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        setLoading(false);
+      });
+      return unsubscribe;
+    } catch (err) {
+      setError(err);
+    }
   }, []);
 
   const value = {
     currentUser,
     login,
-    // getUsers,
+    getUsers,
+    setErr,
+    error,
     signup,
     logout,
     resetPassword,

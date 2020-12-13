@@ -8,18 +8,22 @@ function Chatroom() {
   const [DBA, setDBA] = useState("");
   const [loaded, setLoaded] = useState(false);
   const { currentUser } = useAuth();
+  const { setErr } = useAuth();
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState([]);
   const nameRef = useRef();
   const messageRef = useRef();
 
   useEffect(() => {
+    console.log(currentUser);
     try {
-      if (currentUser.email === undefined)
-        console.log(process.env)
-        window.location.replace("http://localhost:3000");
-      setLoaded(true);
+      {
+        if (currentUser.email === undefined) {
+          window.location.replace("http://localhost:3000/") && setLoaded(true);
+        }
+      }
     } catch (error) {
+      setErr(error);
       window.location.replace("http://localhost:3000");
     }
   }, []);
