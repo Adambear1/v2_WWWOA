@@ -1,30 +1,51 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import "./styles.css";
 import { useAuth } from "../../context/AuthContext";
 
-const socket = io.connect("http://localhost:4000");
+const url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000/"
+    : process.env.PUBLIC_URL;
+console.log(url);
+const socket = io(url, {
+  withCredentials: true,
+  extraHeaders: {
+    "wwwoa-origins": ".",
+  },
+});
+
 function Chatroom() {
   const [DBA, setDBA] = useState("");
   const [loaded, setLoaded] = useState(false);
   const { currentUser } = useAuth();
-  const { setErr } = useAuth();
+  const { setError } = useAuth();
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState([]);
   const nameRef = useRef();
   const messageRef = useRef();
 
+  const history = useHistory();
+
   useEffect(() => {
-    console.log(currentUser);
     try {
+      console.log(currentUser);
       {
-        if (currentUser.email === undefined) {
-          window.location.replace("http://localhost:3000/") && setLoaded(true);
+        if (currentUser.email === undefined || currentUser.email === "") {
+          setError({ message: "No email was entered!" });
+          setLoaded(true);
+          history.push("/");
+        }
+        if (currentUser.password === undefined || currentUser.password === "") {
+          setError({ message: "No password was entered!" });
+          setLoaded(true);
+          history.push("/");
         }
       }
-    } catch (error) {
-      setErr(error);
-      window.location.replace("http://localhost:3000");
+    } catch ({ message }) {
+      setError({ message });
+      history.push("/");
     }
   }, []);
 

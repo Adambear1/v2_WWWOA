@@ -1,17 +1,36 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 function PrivateRoute({ component: Component, ...rest }) {
-  const { currentUser } = useAuth();
+  const { currentUser, setError } = useAuth();
+  const history = useHistory();
   console.log(currentUser);
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        return currentUser ? <Component {...props} /> : <Redirect to="/" />;
-      }}
-    />
-  );
+  try {
+    return (
+      <>
+        <Route
+          {...rest}
+          render={(props) => {
+            try {
+              if (currentUser) {
+                <Component {...props} />;
+              } else {
+                setError({ message: "Invalid credentials" });
+                <Redirect to="/" />;
+              }
+              // return currentUser ? <Component {...props} /> : <Redirect to="/" />;
+            } catch ({ message }) {
+              setError({ message });
+              history.push("/");
+            }
+          }}
+        />
+      </>
+    );
+  } catch ({ message }) {
+    setError({ message });
+    history.push("/");
+  }
 }
 
 export default PrivateRoute;

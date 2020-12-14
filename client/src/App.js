@@ -8,15 +8,15 @@ import Members from "./pages/Members";
 function App() {
   return (
     <>
-      <Router>
-        <AuthProvider>
+      <AuthProvider>
+        <Router>
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route path="*" component={Members} />
-            {/* <PrivateRoute path="/members" component={Members} /> */}
+            {/* <Route path="/members" component={Members} /> */}
+            <PrivateRoute path="/members" component={Members} />
           </Switch>
-        </AuthProvider>
-      </Router>
+        </Router>
+      </AuthProvider>
     </>
   );
 }

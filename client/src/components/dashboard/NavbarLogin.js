@@ -3,14 +3,12 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
-import "./styles.css"
+import "./styles.css";
 
 function NavbarLogin() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
+  const { login, setError, error, loading, setLoading } = useAuth();
   const history = useHistory();
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +17,8 @@ function NavbarLogin() {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       history.push("/");
-    } catch (error) {
-      setError("Failed to Login.");
+    } catch ({ message }) {
+      setError({ message });
     }
     setLoading(false);
   };
@@ -48,17 +46,26 @@ function NavbarLogin() {
               placeholder="Password"
             />
           </div>
-          {process.env.NODE_ENV === "production" ? 
-                <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit} disabled="true">
-                  Login
-                </button> 
-                : 
-                <button type="submit" class="btn btn-secondary btn-currently-disabled"  onClick={onSubmit}>
-                  <Link to="/members" style={{color: "white"}}>Login</Link>
-                </button>  
-        }
-          
-        
+          {process.env.NODE_ENV === "production" ? (
+            <button
+              type="submit"
+              class="btn btn-secondary btn-currently-disabled"
+              onClick={onSubmit}
+              disabled="true"
+            >
+              Login
+            </button>
+          ) : (
+            <button
+              type="submit"
+              class="btn btn-secondary btn-currently-disabled"
+              onClick={onSubmit}
+            >
+              <Link to="/members" style={{ color: "white" }}>
+                Login
+              </Link>
+            </button>
+          )}
         </form>
       </div>
     </div>

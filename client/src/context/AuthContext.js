@@ -10,7 +10,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [err, setErr] = useState();
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -19,8 +19,8 @@ export function AuthProvider({ children }) {
     try {
       setCurrentUser({ email, password });
       return auth.signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      setError(err);
+    } catch (error) {
+      setErr(error);
     }
   }
 
@@ -39,37 +39,37 @@ export function AuthProvider({ children }) {
   function logout() {
     try {
       return auth.signOut();
-    } catch (err) {
-      setError(err);
+    } catch (e) {
+      throw e;
     }
   }
 
   function resetPassword(email) {
     try {
       return auth.sendPasswordResetEmail(email);
-    } catch (err) {
-      setError(err);
+    } catch (e) {
+      throw e;
     }
   }
 
   function updateEmail(email) {
     try {
       return currentUser.updateEmail(email);
-    } catch (err) {
-      setError(err);
+    } catch (e) {
+      throw e;
     }
   }
 
   function updatePassword(password) {
     try {
       return currentUser.updatePassword(password);
-    } catch (err) {
-      setError(err);
+    } catch (e) {
+      throw e;
     }
   }
 
-  function setErr(err) {
-    return setError(err);
+  function setError(error) {
+    return setErr(error);
   }
 
   useEffect(() => {
@@ -79,8 +79,8 @@ export function AuthProvider({ children }) {
         setLoading(false);
       });
       return unsubscribe;
-    } catch (err) {
-      setError(err);
+    } catch (e) {
+      throw e;
     }
   }, []);
 
@@ -88,8 +88,9 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     getUsers,
-    setErr,
-    error,
+    setError,
+    setLoading,
+    err,
     signup,
     logout,
     resetPassword,

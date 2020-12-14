@@ -4,7 +4,18 @@ const PORT = process.env.PORT || 4000;
 const http = require("http").createServer(app);
 const helmet = require("helmet");
 const cors = require("cors");
-const io = require("socket.io")(http);
+const url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000/"
+    : process.env.PUBLIC_URL;
+const io = require("socket.io")(http, {
+  cors: {
+    origin: url,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["wwwoa-origins"],
+    credentials: true,
+  },
+});
 
 const formatMessage = require("./utils/Messages");
 const {
@@ -17,17 +28,14 @@ const {
 // MW
 app.use(helmet());
 app.use(cors());
-app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://www.localhost:3000 http://www.localhost:3000/members"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", url);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 // Socket
 
