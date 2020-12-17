@@ -4,13 +4,7 @@ const PORT = process.env.PORT || 4000;
 const http = require("http").Server(app);
 const helmet = require("helmet");
 const cors = require("cors");
-const io = require("socket.io")(http, {
-  cors: {
-    methods: ["GET", "POST"],
-    allowedHeaders: ["wwwoa-origins"],
-    credentials: true,
-  },
-});
+const io = require("socket.io")(http);
 
 const formatMessage = require("./utils/Messages");
 const { userLeave } = require("./utils/Users");
