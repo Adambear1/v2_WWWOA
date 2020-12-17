@@ -1,16 +1,11 @@
 const app = require("express")();
 const path = require("path");
 const PORT = process.env.PORT || 4000;
-const http = require("http").createServer(app);
+const http = require("http").Server(app);
 const helmet = require("helmet");
 const cors = require("cors");
-const url =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/"
-    : process.env.PUBLIC_URL;
 const io = require("socket.io")(http, {
   cors: {
-    origin: url,
     methods: ["GET", "POST"],
     allowedHeaders: ["wwwoa-origins"],
     credentials: true,
@@ -18,24 +13,11 @@ const io = require("socket.io")(http, {
 });
 
 const formatMessage = require("./utils/Messages");
-const {
-  userJoin,
-  getCurrentUser,
-  userLeave,
-  getRoomUsers,
-} = require("./utils/Users");
+const { userLeave } = require("./utils/Users");
 
 // MW
 app.use(helmet());
 app.use(cors());
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", url);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
 
 // Socket
 
