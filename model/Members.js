@@ -16,6 +16,12 @@ const MembersSchema = mongoose.Schema({
     trim: true,
     required: [true, "Email Required"],
   },
+  password: {
+    type: String,
+    unique: true,
+    trim: true,
+    require: [true, "Password Required"],
+  },
   phoneNumber: {
     type: String,
     unique: true,
