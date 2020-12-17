@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 const url =
   process.env.NODE_ENV === "development"
     ? "http://localhost:4000/"
-    : process.env.PUBLIC_URL;
+    : "https://wwwoa-297919.wm.r.appspot.com:4000";
 console.log(url);
 const socket = io(url, {
   withCredentials: true,
