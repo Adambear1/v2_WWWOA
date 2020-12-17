@@ -5,10 +5,10 @@ import "./styles.css";
 import { useAuth } from "../../context/AuthContext";
 
 const url =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:4000/"
-    : "https://wwwoa-297919.wm.r.appspot.com:4000";
-console.log(url);
+  // process.env.NODE_ENV === "production"
+  // ? "https://wwwoa-297919.wm.r.appspot.com:4000";
+  // :
+  "http://localhost:4000/";
 const socket = io(url, {
   withCredentials: true,
   extraHeaders: {
