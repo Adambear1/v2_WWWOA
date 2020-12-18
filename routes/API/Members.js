@@ -1,18 +1,28 @@
 require("dotenv").config();
 const router = require("express").Router();
 const db = require("../../model");
-
 const Cryptr = require("cryptr");
 cryptr = new Cryptr(`${process.env.SECURE}`);
+
+const multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+var upload = multer({ storage });
 
 const { validation } = require("../../utils/Validation.js");
 
 // Get All ##SECURED##
 router.get("/", (req, res) => {
   try {
-    db.Members.find({}).then((data) => {
-      res.json(data);
-      return;
+    db.Members.find({ active: true }).then((data) => {
+      return res.json(data);
     });
   } catch (error) {
     res.status(400).json(error);
@@ -30,8 +40,8 @@ router.get("/:id", ({ params }, res) => {
               firstName,
               lastName,
               password: crpytr.decrypt(password),
-              email: cryptr.decrypt(email),
-              phoneNumber: cryptr.decrypt(phoneNumber),
+              email,
+              phoneNumber,
             })
           : res.status(400).json({ error: "Person doesn't exits" });
       }
@@ -49,7 +59,7 @@ router.post("/", ({ body }, res) => {
       // If email already exists
       db.Members.find({}, ["email"]).then((data) => {
         data.forEach(({ email }) => {
-          if (cryptr.decrypt(email) === body.email) {
+          if (email === body.email) {
             return res.status(400).json({ error: "Email already in use" });
           }
         });
@@ -63,7 +73,7 @@ router.post("/", ({ body }, res) => {
       // If telephone already exists
       db.Members.find({}, ["phoneNumber"]).then((data) => {
         data.forEach(({ phoneNumber }) => {
-          if (cryptr.decrypt(phoneNumber) === body.phoneNumber) {
+          if (phoneNumber === body.phoneNumber) {
             return res
               .status(400)
               .json({ error: "Phone Number already in use" });
@@ -77,8 +87,8 @@ router.post("/", ({ body }, res) => {
       firstName: body.firstName,
       lastName: body.lastName,
       password: cryptr.encrypt(body.password),
-      email: cryptr.encrypt(body.email),
-      phoneNumber: cryptr.encrypt(body.phoneNumber),
+      email: body.email,
+      phoneNumber: body.phoneNumber,
     }).then((data) => {
       return res.json(data);
     });
@@ -87,7 +97,24 @@ router.post("/", ({ body }, res) => {
   }
 });
 
-// Update either by email or phone number
+// Login User
+router.put("/login", ({ body }, res) => {
+  const { email, password } = body;
+  try {
+    db.Members.findOne({ email: email }).then((data) => {
+      if (cryptr.decrypt(data.password) === password) {
+        console.log(cryptr.decrypt(data.password));
+        console.log(password);
+        return res.json(data);
+      } else {
+        return res.sendStatus(500).json({ error: "Incorrect Password" });
+      }
+    });
+  } catch ({ message }) {
+    return res.status(500).json({ error: message });
+  }
+});
+// Update email or phone number
 router.put("/:id", (req, res) => {
   try {
     const { params, body } = req;
@@ -98,14 +125,14 @@ router.put("/:id", (req, res) => {
         // for all instances in database
         data.forEach(({ email }) => {
           // if email already exists
-          if (cryptr.decrypt(email) === body.email) {
+          if (email == body.email) {
             // send error
             return res.status(400).json({ error: "Email already in use" });
           }
           // else update
           db.Members.findOneAndUpdate(
             { _id: params.id },
-            { $set: { email: crpytr.encrypt(body.email) } }
+            { $set: { email: body.email } }
           ).then((data) => {
             return res.json(data);
           });
@@ -129,7 +156,7 @@ router.put("/:id", (req, res) => {
           body.phoneNumber &&
             db.Members.findOneAndUpdate(
               { _id: params.id },
-              { $set: { phoneNumber: cryptr.encrypt(body.phoneNumber) } }
+              { $set: { phoneNumber: body.phoneNumber } }
             ).then((data) => {
               return res.json(data);
             });
@@ -141,15 +168,28 @@ router.put("/:id", (req, res) => {
   }
 });
 
-// Login User
-router.put("/login/:id", ({ body, params }, res) => {
-  db.Members.findOne({ _id: params.id }).then((data) => {
-    return cryptr.decrypt(data.password) === body.password
-      ? res.json(data)
-      : res.status(500).json({ error: "Incorrect Password" });
-  });
+// Update User
+router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
+  const {
+    firstName,
+    lastName,
+    password,
+    email,
+    phoneNumber,
+    picture,
+    admin,
+  } = body;
+  db.Members.findOneAndUpdate(
+    { _id: params.id },
+    { firstName, lastName, password, email, phoneNumber, picture, admin }
+  )
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
-
 // Toggle status of user
 router.put("/status/:id", ({ params }, res) => {
   const _id = params.id;

@@ -15,8 +15,16 @@ function NavbarLogin() {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
+      let { status } = await login({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      });
+
+      if (status) {
+        history.push("/members");
+      } else {
+        history.push("/");
+      }
     } catch ({ message }) {
       setError({ message });
     }
@@ -61,9 +69,7 @@ function NavbarLogin() {
               class="btn btn-secondary btn-currently-disabled"
               onClick={onSubmit}
             >
-              <Link to="/members" style={{ color: "white" }}>
-                Login
-              </Link>
+              <Link style={{ color: "white" }}>Login</Link>
             </button>
           )}
         </form>

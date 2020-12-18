@@ -4,7 +4,6 @@ const PORT = process.env.PORT || 5000;
 const http = require("http").Server(app);
 const helmet = require("helmet");
 const cors = require("cors");
-const io = require("socket.io")(http);
 const bodyParser = require("body-parser");
 const db = require("./config");
 const logger = require("morgan");
@@ -35,32 +34,6 @@ db().then((connection) => {
 const formatMessage = require("./utils/Messages");
 const { userLeave } = require("./utils/Users");
 
-// Socket
-io.on("connection", (socket) => {
-  socket.on("joinRoom", ({ username }) => {
-    // const user = userJoin(socket.id, username);
-    io.emit("message", { name: "Admin", message: "Welcome to Chat!" });
-    io.emit("message", {
-      color: "green",
-      name: "Admin",
-      message: `${username} Has Joined The Chat!`,
-    });
-    io.emit("joinRoom", { username });
-  });
-  socket.on("chatMessage", ({ message, name }) => {
-    io.emit("message", { name, message });
-  });
-  socket.on("disconnect", () => {
-    const user = userLeave(socket.id);
-    socket.on("leaveRoom", ({ username }) => {
-      io.emit("message", {
-        color: "red",
-        name: "Admin",
-        message: `${username} Has Left The Chat `,
-      });
-    });
-  });
-});
 // API Routes //
 app.use("/api/members", require("./routes/API/Members"));
 

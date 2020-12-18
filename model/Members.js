@@ -28,6 +28,14 @@ const MembersSchema = mongoose.Schema({
     trim: true,
     required: [true, "Phone Number Required"],
   },
+  picture: {
+    type: String,
+    default: null,
+  },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   active: {
     type: Boolean,
     default: true,

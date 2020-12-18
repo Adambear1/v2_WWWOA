@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../config";
+import API from "../utils/API";
 
 const AuthContext = createContext();
 
@@ -15,25 +16,25 @@ export function AuthProvider({ children }) {
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
-  function login(email, password) {
+  async function login(input) {
     try {
-      setCurrentUser({ email, password });
-      return auth.signInWithEmailAndPassword(email, password);
+      let user = await API.SignInWithEmailAndPassword(input);
+      const { email, admin } = user.data;
+      sessionStorage.setItem("email", email);
+      sessionStorage.setItem("admin", admin);
+      setCurrentUser({ email, admin });
+      return user;
     } catch (error) {
       setErr(error);
     }
   }
 
-  function getUsers() {
-    let arr = [];
-    db.getInstance();
-    db.ref().on("value", (snapshot) => {
-      let obj = snapshot.val().members;
-      for (var key in obj) {
-        arr.push({ email: obj[key].email, name: obj[key].name, _id: key });
-      }
-    });
-    return arr;
+  async function getUsers() {
+    try {
+      return await API.GetAllMembers();
+    } catch (error) {
+      setErr(error);
+    }
   }
 
   function logout() {

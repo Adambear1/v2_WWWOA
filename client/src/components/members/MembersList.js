@@ -12,11 +12,13 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     <nav>
       <ul className="pagination">
         {pageNumbers.map((number) => (
-          <li key={number} className="page-item">
-            <a onClick={() => paginate(number)} className="page-link">
-              {number}
-            </a>
-          </li>
+          <button style={{ padding: 0 }}>
+            <li key={number} className="page-item">
+              <a onClick={() => paginate(number)} className="page-link">
+                {number}
+              </a>
+            </li>
+          </button>
         ))}
       </ul>
     </nav>
@@ -25,41 +27,53 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 function MembersList() {
   const { getUsers } = useAuth();
   useEffect(() => {
-    console.log(getUsers());
-    // let data = Promise.resolve(getUsers());
-    // console.log(data);
-  });
-  // const [posts, setPosts] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [postsPerPage] = useState(5);
+    try {
+      getUsers().then(({ data }) => {
+        setPosts(data);
+      });
+    } catch (error) {
+      throw error;
+    }
+  }, []);
 
-  // const indexOfLastPost = currentPage * postsPerPage;
-  // const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  // const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  console.log(currentPosts);
   return (
     <>
-      {/* <div>
+      <div>
         {currentPosts &&
-          currentPosts.map(({ name, email, photo, _id }) => {
-            <tr key={_id}>
-              <th scope="row">
-                {photo ? (
-                  <img alt="" src={photo} className="img-fluid" />
-                ) : (
-                  <img alt="Photo Here" src="" className="img-fluid" />
-                )}
-              </th>
-              <td>{name}</td>
-              <td>{email}</td>
-            </tr>;
-          })}
-      </div> */}
-      {/* <Pagination
+          currentPosts.map(
+            ({ firstName, lastName, email, picture, phoneNumber, _id }) => (
+              <tr key={_id}>
+                <th scope="row">
+                  {picture ? (
+                    <img alt="" src={picture} className="img-fluid" />
+                  ) : (
+                    <img alt="picture Here" src="" className="img-fluid" />
+                  )}
+                </th>
+                <td>{firstName}</td>
+                <td>{lastName}</td>
+                <td>{email}</td>
+                <td>{phoneNumber}</td>
+                <td>{email}</td>
+              </tr>
+            )
+          )}
+      </div>{" "}
+      <Pagination
         postsPerPage={postsPerPage}
         totalPosts={posts.length}
         paginate={paginate}
-      /> */}
+      />
     </>
   );
 }
