@@ -5,26 +5,24 @@ import API from "../../../utils/API";
 import GetUser from "../../../utils/GetUser";
 
 function ProfileForm({ currentUser, setCurrentUser }) {
+  const [show, setShow] = useState(false);
+  const [newPass, setNewPass] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const firstName = useRef();
   const lastName = useRef();
   const email = useRef();
   const phoneNumber = useRef();
-  const picture = useRef();
   const password = useRef();
-  const newPassword = useRef();
+  const picture = useRef();
+  const uploadPic = useRef();
   useEffect(() => {
-    console.log(currentUser);
-    try {
-      if (currentUser) {
-        FillForm(currentUser);
-      } else {
-        let user = Promise.resolve(GetUser());
-        return Promise.resolve(setCurrentUser(user));
-      }
-    } catch (error) {
-      throw error;
-    }
-  }, [currentUser]);
+    GetUser().then((data) => {
+      setCurrentUser(data);
+      FillForm(data);
+    });
+  }, []);
   const FillForm = ({ _id }) => {
     API.GetOneMember(_id).then(({ data }) => {
       firstName.current.value = data.firstName;
@@ -37,17 +35,54 @@ function ProfileForm({ currentUser, setCurrentUser }) {
       }
     });
   };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await API.UpdateOneMember(currentUser._id, {
+        firstName: firstName.current.value,
+        lastName: lastName.current.value,
+        email: email.current.value,
+        phoneNumber: phoneNumber.current.value,
+        password: newPass ? newPass : password.current.value,
+        picture: picture.current.src,
+      });
+      setLoading(false);
+      setSuccess("Successfully Updated!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch ({ message }) {
+      setLoading(false);
+      setError(message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+  };
+  // console.log(uploadPic.current && );
   return (
     <>
-      <form>
+      <form className="mt-5 mb-5 text-center" onSubmit={onSubmit}>
         <div className="container text-center">
           <div className="row">
             <div className="col-12">
-              <img
-                src={profilepicture}
-                ref={picture}
-                id="profile-form-image"
-              ></img>
+              <div id="profile-form-image-container">
+                <img
+                  src={
+                    uploadPic.current ? uploadPic.current.value : profilepicture
+                  }
+                  ref={picture}
+                  id="profile-form-image"
+                ></img>
+                <div id="profile-form-image-add">
+                  <input
+                    type="file"
+                    className="btn btn-primary"
+                    ref={uploadPic}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="row">
@@ -87,26 +122,73 @@ function ProfileForm({ currentUser, setCurrentUser }) {
             </div>
           </div>
           <div className="row">
-            <div className="col-12 col-sm-6">
-              <label for="exampleFormControlInput1">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                ref={password}
-              />
+            <div className="col-12 col-sm-6 ">
+              <label for="password">Password</label>
+              <div class="input-group mb-3">
+                <input
+                  disabled="true"
+                  type={show || newPass ? "text" : "password"}
+                  class="form-control"
+                  ref={password}
+                  value={newPass && newPass}
+                />
+                <div class="input-group-append" onClick={() => setShow(!show)}>
+                  <span class="input-group-text" id="basic-addon2">
+                    {show ? (
+                      <i class="fas fa-eye"></i>
+                    ) : (
+                      <i class="fas fa-eye-slash"></i>
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="col-12 col-sm-6">
-              <label for="exampleFormControlInput1">New Password</label>
+              <label for="newPassword">New Password</label>
               <input
                 type="text"
                 class="form-control"
                 id="newPassword"
-                ref={newPassword}
+                onChange={(e) => {
+                  setNewPass(e.target.value);
+                }}
               />
             </div>
           </div>
         </div>
+        {!loading && !error && !success && (
+          <button type="submit" className="btn btn-primary mt-3">
+            Update
+          </button>
+        )}
+        {!loading && !error && success && (
+          <>
+            <button type="submit" className="btn btn-success mt-3">
+              <i class="fas fa-check"></i>
+            </button>
+            <br />
+            <small className="text-success">{success}</small>
+          </>
+        )}
+        {!loading && error && !success && (
+          <>
+            <button type="submit" className="btn btn-danger mt-3">
+              <i class="far fa-times-circle"></i>
+            </button>
+            <br />
+            <small className="text-danger">{error}</small>
+          </>
+        )}
+        {loading && !error && !success && (
+          <button class="btn btn-primary" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Loading...
+          </button>
+        )}
       </form>
     </>
   );

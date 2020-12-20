@@ -21,6 +21,9 @@ export default {
   GetOneMember: (id) => {
     return axios.get(membersUrl + id);
   },
+  UpdateOneMember: (id, data) => {
+    return axios.put(membersUrl + "profile/" + id, data);
+  },
   GetUpdates: () => {
     return axios.get(updatesUrl);
   },

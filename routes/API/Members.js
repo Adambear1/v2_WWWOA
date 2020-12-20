@@ -201,15 +201,25 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
     picture,
     admin,
   } = body;
+  let formattedEmail = email.toLowerCase();
+  let formattedPhoneNumber = phoneNumber.replace(/-/g, "");
   db.Members.findOneAndUpdate(
     { _id: params.id },
-    { firstName, lastName, password, email, phoneNumber, picture, admin }
+    {
+      firstName,
+      lastName,
+      password: cryptr.encrypt(password),
+      email: formattedEmail,
+      phoneNumber: formattedPhoneNumber,
+      picture,
+      admin,
+    }
   )
     .then((data) => {
       res.json(data);
     })
     .catch((error) => {
-      console.log(error);
+      res.status(400).json(error);
     });
 });
 // Toggle status of user
