@@ -18,9 +18,10 @@ function Members() {
     }
   }, []);
   const getUser = () => {
-    let email = sessionStorage.getItem("email");
-    let admin = sessionStorage.getItem("admin");
-    return { email: email, admin: admin };
+    let email = localStorage.getItem("email");
+    let admin = localStorage.getItem("admin");
+    let _id = localStorage.getItem("_id");
+    return { email: email, admin: admin, _id: _id };
   };
   return (
     <>

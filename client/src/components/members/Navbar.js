@@ -6,17 +6,6 @@ import { Link as HistoryLink, useHistory } from "react-router-dom";
 function Navbar({ open, setOpen }) {
   const { currentUser, setCurrentUser } = useAuth();
   const { logout } = useAuth();
-  useEffect(() => {
-    if (!currentUser) {
-      let user = getUser();
-      setCurrentUser(user);
-    }
-  }, []);
-  const getUser = () => {
-    let email = sessionStorage.getItem("email");
-    let admin = sessionStorage.getItem("admin");
-    return { email: email, admin: admin };
-  };
 
   const history = useHistory();
   const onLogout = async (e) => {

@@ -19,10 +19,11 @@ export function AuthProvider({ children }) {
   async function login(input) {
     try {
       let user = await API.SignInWithEmailAndPassword(input);
-      const { email, admin } = user.data;
-      sessionStorage.setItem("email", email);
-      sessionStorage.setItem("admin", admin);
-      setCurrentUser({ email, admin });
+      const { email, admin, _id } = user.data;
+      localStorage.setItem("email", email);
+      localStorage.setItem("admin", admin);
+      localStorage.setItem("_id", _id);
+      setCurrentUser({ email, admin, _id });
       return user;
     } catch (error) {
       setErr(error);
@@ -39,7 +40,9 @@ export function AuthProvider({ children }) {
 
   function logout() {
     try {
-      return auth.signOut();
+      localStorage.removeItem("email");
+      localStorage.removeItem("admin");
+      localStorage.removeItem("_id");
     } catch (e) {
       throw e;
     }

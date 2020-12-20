@@ -60,6 +60,7 @@ router.get("/:id", ({ params }, res) => {
             firstName,
             lastName,
             email,
+            password: cryptr.decrypt(password),
             phoneNumber,
           });
         } else {
