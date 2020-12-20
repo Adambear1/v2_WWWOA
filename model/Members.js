@@ -34,7 +34,6 @@ const MembersSchema = mongoose.Schema({
   },
   admin: {
     type: Boolean,
-    default: false,
   },
   active: {
     type: Boolean,

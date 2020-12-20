@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./private";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
+import MembersProfile from "./pages/MembersProfile";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route path="/members" component={Members} />
+            <Route exact path="/members" component={Members} />
+            <Route path="/members/profile" component={MembersProfile} />
             {/* <PrivateRoute path="/members" component={Members} /> */}
           </Switch>
         </Router>

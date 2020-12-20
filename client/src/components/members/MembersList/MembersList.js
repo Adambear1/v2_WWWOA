@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
+import MemberCard from "./MemberCard";
+//
+import "./styles.css";
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
@@ -44,28 +47,20 @@ function MembersList() {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  console.log(currentPosts);
   return (
     <>
-      <div>
+      <div className="members-card-container">
         {currentPosts &&
           currentPosts.map(
             ({ firstName, lastName, email, picture, phoneNumber, _id }) => (
-              <tr key={_id}>
-                <th scope="row">
-                  {picture ? (
-                    <img alt="" src={picture} className="img-fluid" />
-                  ) : (
-                    <img alt="picture Here" src="" className="img-fluid" />
-                  )}
-                </th>
-                <td>{firstName}</td>
-                <td>{lastName}</td>
-                <td>{email}</td>
-                <td>{phoneNumber}</td>
-                <td>{email}</td>
-              </tr>
+              <MemberCard
+                firstName={firstName}
+                lastName={lastName}
+                email={email}
+                picture={picture}
+                phoneNumber={phoneNumber}
+                _id={_id}
+              />
             )
           )}
       </div>{" "}

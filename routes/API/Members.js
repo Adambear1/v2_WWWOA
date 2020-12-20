@@ -1,6 +1,7 @@
 require("dotenv").config();
 const router = require("express").Router();
 const db = require("../../model");
+
 const Cryptr = require("cryptr");
 cryptr = new Cryptr(`${process.env.SECURE}`);
 
@@ -32,18 +33,38 @@ router.get("/", (req, res) => {
 
 // Get One
 router.get("/:id", ({ params }, res) => {
+  console.log(params);
   try {
     db.Members.findOne({ _id: params.id }).then(
-      ({ firstName, lastName, email, phoneNumber, password }) => {
-        return firstName || lastName || email || phoneNumber || password
-          ? res.json({
-              firstName,
-              lastName,
-              password: crpytr.decrypt(password),
-              email,
-              phoneNumber,
-            })
-          : res.status(400).json({ error: "Person doesn't exits" });
+      ({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        admin,
+        picture,
+      }) => {
+        if (
+          firstName ||
+          lastName ||
+          email ||
+          phoneNumber ||
+          password ||
+          admin ||
+          picture
+        ) {
+          return res.json({
+            admin,
+            picture,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+          });
+        } else {
+          return res.status(400).json({ error: "Person doesn't exits" });
+        }
       }
     );
   } catch (error) {

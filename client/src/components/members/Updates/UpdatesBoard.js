@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CreateUpdates from "./CreateUpdates";
-import { useAuth } from "../../context/AuthContext";
+import CreateUpdates from "../AdminSpecialties/CreateUpdates";
+import { useAuth } from "../../../context/AuthContext";
 function UpdatesBoard() {
   // const [cU, setCU] = useState();
   // let { currentUser } = useAuth();

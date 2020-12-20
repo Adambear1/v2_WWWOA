@@ -1,20 +1,24 @@
-import React, { useState } from "react";
-import io from "socket.io-client";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-scroll";
 import { Link as HistoryLink, useHistory } from "react-router-dom";
-const socket =
-  process.env.NODE_ENV === "production"
-    ? io.connect("https://wwwoa-297919.wm.r.appspot.com:4000")
-    : io.connect("http://localhost:4000");
 
-function Navbar() {
+function Navbar({ open, setOpen }) {
+  const { currentUser, setCurrentUser } = useAuth();
   const { logout } = useAuth();
-  const history = useHistory();
-  const { currentUser } = useAuth();
-  const joinChat = () => {
-    socket.emit("joinRoom", { username: currentUser.email });
+  useEffect(() => {
+    if (!currentUser) {
+      let user = getUser();
+      setCurrentUser(user);
+    }
+  }, []);
+  const getUser = () => {
+    let email = sessionStorage.getItem("email");
+    let admin = sessionStorage.getItem("admin");
+    return { email: email, admin: admin };
   };
+
+  const history = useHistory();
   const onLogout = async (e) => {
     e.preventDefault();
     try {
@@ -41,16 +45,9 @@ function Navbar() {
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link">
-              <Link
-                activeClass="active"
-                to=""
-                spy={true}
-                smooth={true}
-                offset={50}
-                duration={500}
-              >
+              <HistoryLink activeClass="active" to="/members">
                 Home
-              </Link>
+              </HistoryLink>
             </a>
           </li>
           <li class="nav-item">
@@ -81,17 +78,6 @@ function Navbar() {
               </Link>
             </a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link">
-              <li
-                data-toggle="modal"
-                data-target="#chatModal"
-                onClick={joinChat}
-              >
-                Chat Room
-              </li>
-            </a>
-          </li>
           <li class="nav-item">
             <a class="nav-link">
               <Link
@@ -106,6 +92,21 @@ function Navbar() {
               </Link>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <HistoryLink activeClass="active" to="/members/profile">
+                Profile
+              </HistoryLink>
+            </a>
+          </li>
+          {currentUser && currentUser.admin && (
+            <>
+              <li class="nav-item" onClick={(e) => setOpen(true)}>
+                <a class="nav-link">Edit Members</a>
+              </li>
+            </>
+          )}
+
           <li class="nav-item">
             <a
               onClick={onLogout}
