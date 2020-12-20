@@ -7,6 +7,7 @@ import GetUser from "../../../utils/GetUser";
 function ProfileForm({ currentUser, setCurrentUser }) {
   const [show, setShow] = useState(false);
   const [newPass, setNewPass] = useState(null);
+  const [picture, setPicture] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -15,8 +16,7 @@ function ProfileForm({ currentUser, setCurrentUser }) {
   const email = useRef();
   const phoneNumber = useRef();
   const password = useRef();
-  const picture = useRef();
-  const uploadPic = useRef();
+
   useEffect(() => {
     GetUser().then((data) => {
       setCurrentUser(data);
@@ -31,13 +31,17 @@ function ProfileForm({ currentUser, setCurrentUser }) {
       phoneNumber.current.value = data.phoneNumber;
       password.current.value = data.password;
       if (data.picture) {
-        picture.current.src = data.picture && data.picture;
+        setPicture(data.picture);
+      } else {
+        setPicture(profilepicture);
       }
     });
+    // renderPic(picture);
   };
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       await API.UpdateOneMember(currentUser._id, {
         firstName: firstName.current.value,
@@ -45,7 +49,7 @@ function ProfileForm({ currentUser, setCurrentUser }) {
         email: email.current.value,
         phoneNumber: phoneNumber.current.value,
         password: newPass ? newPass : password.current.value,
-        picture: picture.current.src,
+        picture,
       });
       setLoading(false);
       setSuccess("Successfully Updated!");
@@ -60,26 +64,40 @@ function ProfileForm({ currentUser, setCurrentUser }) {
       }, 2000);
     }
   };
-  // console.log(uploadPic.current && );
+  const renderPic = (picture) => {
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+      setPicture(reader.result);
+    };
+
+    if (picture) {
+      reader.readAsDataURL(picture);
+    } else {
+      // setNewPic(profilepicture);
+    }
+  };
+
   return (
     <>
-      <form className="mt-5 mb-5 text-center" onSubmit={onSubmit}>
+      <form
+        className="mt-5 mb-5 text-center"
+        onSubmit={onSubmit}
+        enctype="multipart/form-data"
+      >
         <div className="container text-center">
           <div className="row">
             <div className="col-12">
               <div id="profile-form-image-container">
-                <img
-                  src={
-                    uploadPic.current ? uploadPic.current.value : profilepicture
-                  }
-                  ref={picture}
-                  id="profile-form-image"
-                ></img>
+                <img src={picture} id="profile-form-image"></img>
                 <div id="profile-form-image-add">
                   <input
                     type="file"
+                    id="uploaded-picture"
                     className="btn btn-primary"
-                    ref={uploadPic}
+                    onChange={(e) => {
+                      renderPic(e.target.files[0]);
+                    }}
                   />
                 </div>
               </div>

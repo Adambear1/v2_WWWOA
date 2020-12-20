@@ -5,6 +5,8 @@ const http = require("http").Server(app);
 const helmet = require("helmet");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
+const methodOverride = require("method-override");
 const db = require("./config");
 const logger = require("morgan");
 const expressSession = require("express-session");
@@ -14,6 +16,8 @@ const MongoStore = require("connect-mongo")(expressSession);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(fileUpload());
 app.use(logger("dev"));
 app.use(cors());
 
