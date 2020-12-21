@@ -41,7 +41,6 @@ function ProfileForm({ currentUser, setCurrentUser }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       await API.UpdateOneMember(currentUser._id, {
         firstName: firstName.current.value,
@@ -74,17 +73,13 @@ function ProfileForm({ currentUser, setCurrentUser }) {
     if (picture) {
       reader.readAsDataURL(picture);
     } else {
-      // setNewPic(profilepicture);
+      return;
     }
   };
 
   return (
     <>
-      <form
-        className="mt-5 mb-5 text-center"
-        onSubmit={onSubmit}
-        enctype="multipart/form-data"
-      >
+      <form className="mt-5 mb-5 text-center" onSubmit={onSubmit}>
         <div className="container text-center">
           <div className="row">
             <div className="col-12">
@@ -105,13 +100,16 @@ function ProfileForm({ currentUser, setCurrentUser }) {
           </div>
           <div className="row">
             <div className="col-12 col-sm-6">
-              <label for="exampleFormControlInput1">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="firstName"
-                ref={firstName}
-              />
+              <form enctype="multipart/form-data">
+                <label for="exampleFormControlInput1">First Name</label>
+                <input
+                  accept="image/*"
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  ref={firstName}
+                />
+              </form>
             </div>
             <div className="col-12 col-sm-6">
               <label for="exampleFormControlInput1">Last Name</label>

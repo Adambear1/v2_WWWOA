@@ -201,8 +201,9 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
     picture,
     admin,
   } = body;
-  let formattedEmail = email.toLowerCase();
-  let formattedPhoneNumber = phoneNumber.replace(/-/g, "");
+  console.log(body);
+  let formattedEmail = email.toLowerCase().trim();
+  let formattedPhoneNumber = phoneNumber.replace(/-/g, "").trim();
   db.Members.findOneAndUpdate(
     { _id: params.id },
     {
