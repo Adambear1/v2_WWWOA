@@ -17,7 +17,7 @@ app.use(helmet());
 app.use(methodOverride("_method"));
 app.use(fileUpload());
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb" }, { deprecated: false }));
 app.use(logger("dev"));
 app.use(cors());
 

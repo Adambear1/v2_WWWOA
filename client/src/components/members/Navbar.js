@@ -34,7 +34,11 @@ function Navbar({ open, setOpen }) {
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link">
-              <HistoryLink activeClass="active" to="/members">
+              <HistoryLink
+                activeClass="active"
+                style={{ cursor: "pointer" }}
+                to="/members"
+              >
                 Home
               </HistoryLink>
             </a>
@@ -48,6 +52,7 @@ function Navbar({ open, setOpen }) {
                 smooth={true}
                 offset={50}
                 duration={500}
+                style={{ cursor: "pointer" }}
               >
                 Members
               </Link>
@@ -62,6 +67,7 @@ function Navbar({ open, setOpen }) {
                 smooth={true}
                 offset={50}
                 duration={500}
+                style={{ cursor: "pointer" }}
               >
                 Meetings
               </Link>
@@ -76,6 +82,7 @@ function Navbar({ open, setOpen }) {
                 smooth={true}
                 offset={50}
                 duration={500}
+                style={{ cursor: "pointer" }}
               >
                 Rule Changes
               </Link>
@@ -83,14 +90,22 @@ function Navbar({ open, setOpen }) {
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <HistoryLink activeClass="active" to="/members/profile">
+              <HistoryLink
+                activeClass="active"
+                style={{ cursor: "pointer" }}
+                to="/members/profile"
+              >
                 Profile
               </HistoryLink>
             </a>
           </li>
           {currentUser && currentUser.admin && (
             <>
-              <li class="nav-item" onClick={(e) => setOpen(true)}>
+              <li
+                class="nav-item"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => setOpen(true)}
+              >
                 <a class="nav-link">Edit Members</a>
               </li>
             </>

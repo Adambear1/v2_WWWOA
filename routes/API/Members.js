@@ -18,6 +18,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage });
 
 const { validation } = require("../../utils/Validation.js");
+const { json } = require("body-parser");
 
 // Get All ##SECURED##
 router.get("/", (req, res) => {
@@ -37,6 +38,7 @@ router.get("/:id", ({ params }, res) => {
   try {
     db.Members.findOne({ _id: params.id }).then(
       ({
+        _id,
         firstName,
         lastName,
         email,
@@ -55,6 +57,7 @@ router.get("/:id", ({ params }, res) => {
           picture
         ) {
           return res.json({
+            _id,
             admin,
             picture,
             firstName,
@@ -136,6 +139,78 @@ router.put("/login", ({ body }, res) => {
     return res.status(500).json({ error: message });
   }
 });
+
+// Update User
+router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
+  const {
+    firstName,
+    lastName,
+    password,
+    email,
+    phoneNumber,
+    picture,
+    admin,
+  } = body;
+  let formattedEmail = email.toLowerCase().trim();
+  let formattedPhoneNumber = phoneNumber.replace(/-/g, "").trim();
+  try {
+    if (password) {
+      db.Members.findOneAndUpdate(
+        { _id: params.id },
+        {
+          firstName,
+          lastName,
+          password: cryptr.encrypt(password),
+          email: formattedEmail,
+          phoneNumber: formattedPhoneNumber,
+          picture,
+          admin,
+        }
+      )
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((error) => {
+          res.status(400).json(error);
+        });
+    } else {
+      db.Members.findOneAndUpdate(
+        { _id: params.id },
+        {
+          firstName,
+          lastName,
+          email: formattedEmail,
+          phoneNumber: formattedPhoneNumber,
+          admin,
+        }
+      )
+        .then((data) => {
+          return res.json(data);
+        })
+        .catch((error) => {
+          return res.status(400).json(error);
+        });
+    }
+  } catch ({ message }) {
+    console.log(message);
+    return res.status(500).json(message);
+  }
+});
+// Toggle status of user
+router.put("/status/:id", ({ params }, res) => {
+  const _id = params.id;
+  try {
+    const data = db.Members.findOne({ _id });
+    db.Members.updateOne({ _id }, { $set: { active: !data.active } }).then(
+      (data) => {
+        return res.send(data);
+      }
+    );
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
+
 // Update email or phone number
 router.put("/:id", (req, res) => {
   try {
@@ -185,54 +260,6 @@ router.put("/:id", (req, res) => {
         });
       });
     }
-  } catch (error) {
-    return res.status(400).json(error);
-  }
-});
-
-// Update User
-router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
-  const {
-    firstName,
-    lastName,
-    password,
-    email,
-    phoneNumber,
-    picture,
-    admin,
-  } = body;
-  console.log(body);
-  let formattedEmail = email.toLowerCase().trim();
-  let formattedPhoneNumber = phoneNumber.replace(/-/g, "").trim();
-  db.Members.findOneAndUpdate(
-    { _id: params.id },
-    {
-      firstName,
-      lastName,
-      password: cryptr.encrypt(password),
-      email: formattedEmail,
-      phoneNumber: formattedPhoneNumber,
-      picture,
-      admin,
-    }
-  )
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.status(400).json(error);
-    });
-});
-// Toggle status of user
-router.put("/status/:id", ({ params }, res) => {
-  const _id = params.id;
-  try {
-    const data = db.Members.findOne({ _id });
-    db.Members.updateOne({ _id }, { $set: { active: !data.active } }).then(
-      (data) => {
-        return res.send(data);
-      }
-    );
   } catch (error) {
     return res.status(400).json(error);
   }

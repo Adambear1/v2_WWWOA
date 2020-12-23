@@ -12,6 +12,7 @@
   }
   
   .add-modal-content, .add-modal-content-admin {
+    overflow: scroll;
     position: fixed !important;
     z-index: 2;
     background-color: #fefefe;
@@ -33,7 +34,6 @@
     font-size: 28px;
     font-weight: bold;
   }
-  
 
   .add-close:hover,
   .add-close:focus {
@@ -48,4 +48,20 @@
 
   #add-modal-li{
     display: inline-block
+  }
+
+  
+  .btn-div{
+   margin-top: 30px;
+  }
+
+  /* Edit Cards */
+  .hovered-card-edit, .hovered-card-delete{
+    transition: ease .4s;
+  }
+  .hovered-card-edit{
+    background-color: rgba(128, 128, 128, .5);
+  }
+ .hovered-card-delete{
+  background-color: rgba(255, 124, 124, 0.5);
   }

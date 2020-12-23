@@ -65,15 +65,11 @@ function ProfileForm({ currentUser, setCurrentUser }) {
   };
   const renderPic = (picture) => {
     var reader = new FileReader();
-
     reader.onloadend = function () {
       setPicture(reader.result);
     };
-
     if (picture) {
       reader.readAsDataURL(picture);
-    } else {
-      return;
     }
   };
 

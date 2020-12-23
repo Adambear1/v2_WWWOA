@@ -13,8 +13,8 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route exact path="/members" component={Members} />
-            <Route path="/members/profile" component={MembersProfile} />
+            <PrivateRoute exact path="/members" component={Members} />
+            <PrivateRoute path="/members/profile" component={MembersProfile} />
             {/* <PrivateRoute path="/members" component={Members} /> */}
           </Switch>
         </Router>

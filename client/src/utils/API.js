@@ -22,7 +22,7 @@ export default {
     return axios.get(membersUrl + id);
   },
   UpdateOneMember: (id, data) => {
-    console.log(data);
+    console.log(id, data);
     return axios.put(membersUrl + "profile/" + id, data);
   },
   GetUpdates: () => {

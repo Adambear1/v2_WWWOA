@@ -7,22 +7,17 @@ import Navbar from "../components/members/Navbar";
 import UpdatesBoard from "../components/members/Updates/UpdatesBoard";
 
 import { useAuth } from "../context/AuthContext";
+import GetUser from "../utils/GetUser";
 
 function Members() {
   const [open, setOpen] = useState(false);
   const { currentUser, setCurrentUser } = useAuth();
   useEffect(() => {
     if (!currentUser) {
-      let user = getUser();
-      setCurrentUser(user);
+      setCurrentUser(GetUser());
     }
   }, []);
-  const getUser = () => {
-    let email = localStorage.getItem("email");
-    let admin = localStorage.getItem("admin");
-    let _id = localStorage.getItem("_id");
-    return { email: email, admin: admin, _id: _id };
-  };
+
   return (
     <>
       <Navbar open={open} setOpen={setOpen} />

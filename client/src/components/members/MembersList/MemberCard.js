@@ -4,7 +4,7 @@ import MemberCardModel from "./MemberCardModel";
 //
 import "./styles.css";
 
-function MemberCard({ firstName, lastName, email, picture, phoneNumber, _id }) {
+function MemberCard({ firstName, lastName, picture, _id }) {
   const [open, setOpen] = useState(false);
   return (
     <>
