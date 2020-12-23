@@ -4,31 +4,28 @@ import { useAuth } from "../../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
 import "./styles.css";
+import API from "../../utils/API";
 
 function NavbarLogin() {
+  const [error, setError] = useState(null);
+  const { setErr, err, loading, setLoading } = useAuth();
+  const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, setError, error, loading, setLoading } = useAuth();
-  const history = useHistory();
-  const onSubmit = async (e) => {
+
+  const onSubmit = (e) => {
     e.preventDefault();
+    // setLoading(true);
     try {
-      setError("");
-      setLoading(true);
-      let { status } = await login({
+      API.Login({
         email: emailRef.current.value,
         password: passwordRef.current.value,
+      }).then(({ data }) => {
+        console.log(data);
       });
-
-      if (status) {
-        history.push("/members");
-      } else {
-        history.push("/");
-      }
     } catch ({ message }) {
-      setError({ message });
+      console.log(message);
     }
-    setLoading(false);
   };
 
   return (
@@ -54,24 +51,18 @@ function NavbarLogin() {
               placeholder="Password"
             />
           </div>
-          {process.env.NODE_ENV === "production" ? (
-            <button
-              type="submit"
-              class="btn btn-secondary btn-currently-disabled"
-              onClick={onSubmit}
-              disabled="true"
-            >
-              Login
+          <>
+            <button type="submit" class="btn btn-secondary" onClick={onSubmit}>
+              <a href="/members" style={{ color: "white" }}>
+                Login
+              </a>
             </button>
-          ) : (
-            <button
-              type="submit"
-              class="btn btn-secondary btn-currently-disabled"
-              onClick={onSubmit}
-            >
-              <Link style={{ color: "white" }}>Login</Link>
-            </button>
-          )}
+            {error && (
+              <a href="/resetAccount" target="_blank">
+                Forgot Password? Reset Here
+              </a>
+            )}
+          </>
         </form>
       </div>
     </div>

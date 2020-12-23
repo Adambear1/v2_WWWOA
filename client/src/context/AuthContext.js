@@ -25,8 +25,8 @@ export function AuthProvider({ children }) {
       localStorage.setItem("_id", _id);
       setCurrentUser({ email, admin, _id });
       return user;
-    } catch (error) {
-      setErr(error);
+    } catch ({ message }) {
+      return message;
     }
   }
 

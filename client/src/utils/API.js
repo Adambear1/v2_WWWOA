@@ -9,7 +9,7 @@ const updatesUrl =
     : "http://localhost:5000/api/updates/";
 
 export default {
-  SignInWithEmailAndPassword: (data) => {
+  Login: (data) => {
     return axios.put(membersUrl + "login", data);
   },
   GetAllMembers: () => {

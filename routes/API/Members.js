@@ -123,20 +123,22 @@ router.post("/", ({ body }, res) => {
 });
 
 // Login User
-router.put("/login", ({ body }, res) => {
-  const { email, password } = body;
+router.put("/login", async ({ body }, res) => {
+  const { email, password } = await body;
   try {
-    db.Members.findOne({ email: email }).then((data) => {
+    let data = await db.Members.findOne({ email: email });
+    if (data) {
       if (cryptr.decrypt(data.password) === password) {
-        console.log(cryptr.decrypt(data.password));
-        console.log(password);
         return res.json(data);
       } else {
-        return res.sendStatus(500).json({ error: "Incorrect Password" });
+        return res.status(404).json({ error: "Incorrect Password!" });
       }
-    });
+    } else {
+      return res.status(404).json({ error: "Invalid Member Email!" });
+    }
+    // });
   } catch ({ message }) {
-    return res.status(500).json({ error: message });
+    return res.status(404).json(message);
   }
 });
 
