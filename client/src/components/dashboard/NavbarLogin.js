@@ -5,26 +5,38 @@ import { Link, useHistory } from "react-router-dom";
 
 import "./styles.css";
 import API from "../../utils/API";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 function NavbarLogin() {
   const [error, setError] = useState(null);
-  const { setErr, err, loading, setLoading } = useAuth();
+  const [resetInfo, setResetInfo] = useState(null);
+  const [open, setOpen] = useState(false);
+  const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // setLoading(true);
     try {
       API.Login({
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }).then(({ data }) => {
-        console.log(data);
+        if (data.error) {
+          return setError(data.error);
+        } else {
+          const { email, admin, _id } = data;
+          localStorage.setItem("email", email);
+          localStorage.setItem("admin", admin);
+          localStorage.setItem("_id", _id);
+          setCurrentUser({ email, admin, _id });
+          return history.push("/members");
+        }
       });
     } catch ({ message }) {
       console.log(message);
+      setError({ message });
     }
   };
 
@@ -37,9 +49,13 @@ function NavbarLogin() {
               type="email"
               ref={emailRef}
               class="form-control"
-              id="exampleInputEmail1"
+              id="email"
+              name="email"
               aria-describedby="emailHelp"
               placeholder="Enter email"
+              onChange={(e) => {
+                setResetInfo({ [e.target.name]: e.target.value });
+              }}
             />
           </div>
           <div class="form-group">
@@ -47,22 +63,36 @@ function NavbarLogin() {
               ref={passwordRef}
               type="password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="password"
+              name="password"
               placeholder="Password"
+              onChange={(e) => {
+                setResetInfo({ [e.target.name]: e.target.value });
+              }}
             />
           </div>
           <>
             <button type="submit" class="btn btn-secondary" onClick={onSubmit}>
-              <a href="/members" style={{ color: "white" }}>
-                Login
-              </a>
+              <a style={{ color: "white" }}>Login</a>
             </button>
-            {error && (
-              <a href="/resetAccount" target="_blank">
-                Forgot Password? Reset Here
-              </a>
-            )}
           </>
+          <br />
+          <br />
+          <ResetPasswordModal
+            open={open}
+            setOpen={setOpen}
+            resetInfo={resetInfo}
+            setResetInfo={setResetInfo}
+          />
+          {error && (
+            <a
+              className="text-danger"
+              onClick={() => setOpen(!open)}
+              target="_blank"
+            >
+              Forgot Password? Reset Here
+            </a>
+          )}
         </form>
       </div>
     </div>

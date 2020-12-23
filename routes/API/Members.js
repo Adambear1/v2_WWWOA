@@ -131,15 +131,25 @@ router.put("/login", async ({ body }, res) => {
       if (cryptr.decrypt(data.password) === password) {
         return res.json(data);
       } else {
-        return res.status(404).json({ error: "Incorrect Password!" });
+        return res.json({ error: "Incorrect Password!" });
       }
     } else {
-      return res.status(404).json({ error: "Invalid Member Email!" });
+      return res.json({ error: "Invalid Member Email!" });
     }
-    // });
   } catch ({ message }) {
-    return res.status(404).json(message);
+    return res.json(message);
   }
+});
+
+// Reset Password
+router.put("/reset", ({ email }, res) => {
+  db.Members.findOne({ email }, (err, data) => {
+    if (err || !data) {
+      return res
+        .status(400)
+        .json({ error: "User with this email does not exist!" });
+    }
+  });
 });
 
 // Update User

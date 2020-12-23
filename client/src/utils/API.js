@@ -21,6 +21,9 @@ export default {
   GetOneMember: (id) => {
     return axios.get(membersUrl + id);
   },
+  SendResetLink: (data) => {
+    return axios.put(membersUrl + "resetLink", data);
+  },
   UpdateOneMember: (id, data) => {
     console.log(id, data);
     return axios.put(membersUrl + "profile/" + id, data);
