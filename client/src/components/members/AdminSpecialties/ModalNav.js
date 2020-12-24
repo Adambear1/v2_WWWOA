@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-function ModalNav({ state, setState }) {
+function ModalNav({ state, setState, member, setMember, error, setError }) {
   return (
     <nav>
       <ul id="add-modal-ul">
         <li id="add-modal-li">
           <button
             className="btn btn-light mx-3"
-            onClick={() => setState("Add")}
+            onClick={() => {
+              setError(null);
+              setMember(null);
+              setState("Add");
+            }}
           >
             {" "}
             Add
@@ -16,7 +20,11 @@ function ModalNav({ state, setState }) {
         <li id="add-modal-li">
           <button
             className="btn btn-light mx-3"
-            onClick={() => setState("Edit")}
+            onClick={() => {
+              setError(null);
+              setMember(null);
+              setState("Edit");
+            }}
           >
             {" "}
             Edit
@@ -25,7 +33,11 @@ function ModalNav({ state, setState }) {
         <li id="add-modal-li">
           <button
             className="btn btn-light mx-3"
-            onClick={() => setState("Delete")}
+            onClick={() => {
+              setError(null);
+              setMember(null);
+              setState("Delete");
+            }}
           >
             {" "}
             Delete

@@ -1,8 +1,8 @@
 import React from "react";
 
 function EditSpecificMember({
-  specificMember,
-  setSpecificMember,
+  setMember,
+  member,
   firstName,
   lastName,
   email,
@@ -12,7 +12,7 @@ function EditSpecificMember({
 }) {
   return (
     <>
-      <div className="container" id={specificMember._id} ref={memberID}>
+      <div className="container" id={member._id} ref={memberID}>
         <div className="row mt-3">
           <div className="col-6">
             <label for="exampleFormControlInput1">First Name</label>
@@ -22,10 +22,10 @@ function EditSpecificMember({
               id="firstName"
               name="firstName"
               ref={firstName}
-              value={specificMember.firstName}
+              value={member.firstName}
               onChange={(e) => {
-                setSpecificMember({
-                  ...specificMember,
+                setMember({
+                  ...member,
                   [e.target.name]: e.target.value,
                 });
               }}
@@ -39,10 +39,10 @@ function EditSpecificMember({
               id="lastName"
               name="lastName"
               ref={lastName}
-              value={specificMember.lastName}
+              value={member.lastName}
               onChange={(e) => {
-                setSpecificMember({
-                  ...specificMember,
+                setMember({
+                  ...member,
                   [e.target.name]: e.target.value,
                 });
               }}
@@ -58,10 +58,10 @@ function EditSpecificMember({
               id="email"
               name="email"
               ref={email}
-              value={specificMember.email}
+              value={member.email}
               onChange={(e) => {
-                setSpecificMember({
-                  ...specificMember,
+                setMember({
+                  ...member,
                   [e.target.name]: e.target.value,
                 });
               }}
@@ -75,10 +75,10 @@ function EditSpecificMember({
               id="phoneNumber"
               name="phoneNumber"
               ref={phoneNumber}
-              value={specificMember.phoneNumber}
+              value={member.phoneNumber}
               onChange={(e) => {
-                setSpecificMember({
-                  ...specificMember,
+                setMember({
+                  ...member,
                   [e.target.name]: e.target.value,
                 });
               }}
@@ -94,10 +94,10 @@ function EditSpecificMember({
                 id="admin"
                 name="admin"
                 ref={admin}
-                value={specificMember.admin}
+                value={member.admin}
                 onChange={(e) => {
-                  setSpecificMember({
-                    ...specificMember,
+                  setMember({
+                    ...member,
                     [e.target.name]: e.target.value,
                   });
                 }}

@@ -23,7 +23,7 @@ const { json } = require("body-parser");
 // Get All ##SECURED##
 router.get("/", (req, res) => {
   try {
-    db.Members.find({ active: true }).then((data) => {
+    db.Members.find({}).then((data) => {
       return res.json(data);
     });
   } catch (error) {
@@ -193,7 +193,7 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
           lastName,
           email: formattedEmail,
           phoneNumber: formattedPhoneNumber,
-          admin,
+          admin: admin ? true : false,
         }
       )
         .then((data) => {
@@ -212,12 +212,14 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
 router.put("/status/:id", ({ params }, res) => {
   const _id = params.id;
   try {
-    const data = db.Members.findOne({ _id });
-    db.Members.updateOne({ _id }, { $set: { active: !data.active } }).then(
-      (data) => {
-        return res.send(data);
-      }
-    );
+    db.Members.findOne({ _id: _id }).then(({ active }) => {
+      db.Members.updateOne({ _id }, { $set: { active: !active } }).then(
+        (data) => {
+          return res.send(data);
+        }
+      );
+      return res.status(200);
+    });
   } catch (error) {
     return res.status(400).json(error);
   }

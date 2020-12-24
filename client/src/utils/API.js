@@ -15,6 +15,9 @@ export default {
   GetAllMembers: () => {
     return axios.get(membersUrl);
   },
+  GetAllInactiveMembers: () => {
+    return axios.get(membersUrl + "inactive");
+  },
   AddMembers: (data) => {
     return axios.post(membersUrl, data);
   },
@@ -25,8 +28,10 @@ export default {
     return axios.put(membersUrl + "resetLink", data);
   },
   UpdateOneMember: (id, data) => {
-    console.log(id, data);
     return axios.put(membersUrl + "profile/" + id, data);
+  },
+  ToggleUserStatus: (id) => {
+    return axios.put(membersUrl + "status/" + id);
   },
   GetUpdates: () => {
     return axios.get(updatesUrl);

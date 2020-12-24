@@ -55,6 +55,8 @@
    margin-top: 30px;
   }
 
+  
+
   /* Edit Cards */
   .hovered-card-edit, .hovered-card-delete{
     transition: ease .4s;
@@ -65,3 +67,13 @@
  .hovered-card-delete{
   background-color: rgba(255, 124, 124, 0.5);
   }
+  .current-inactive-delete{
+    background-color: rgba(255, 124, 124, 0.5);
+  }
+  .current-active-delete{
+    background-color: rgba(139, 255, 124, 0.5);
+  }
+
+.btn-block{
+  cursor:not-allowed;
+}

@@ -7,10 +7,12 @@ import ModalNav from "./ModalNav";
 import "./styles.css";
 
 function AddEditDeleteUsersModal({ open, setOpen }) {
-  const [state, setState] = useState(null);
+  const [state, setState] = useState("Add");
+  const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+
   const firstName = useRef();
   const lastName = useRef();
   const email = useRef();
@@ -36,7 +38,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                 email: email.current.value,
                 phoneNumber: phoneNumber.current.value,
                 admin: admin.current.value,
-                password: "password123",
+                password: "password",
               }).then(() => {
                 firstName.current.value = "";
                 lastName.current.value = "";
@@ -56,7 +58,6 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
           break;
         case "Edit":
           setLoading(true);
-          console.log(memberID.current.id);
           try {
             if (
               firstName.current.value !== "" ||
@@ -72,6 +73,8 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                 phoneNumber: phoneNumber.current.value,
                 admin: admin.current.value,
               }).then(() => {
+                setMember(null);
+                setState("Edit");
                 setLoading(false);
               });
             } else {
@@ -87,19 +90,16 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
           setLoading(true);
           try {
             if (memberID.current.id) {
-              API.UpdateOneMember(memberID.current.id, { active: false }).then(
-                () => {
-                  memberID.current.id = "";
-                  setLoading(false);
-                }
-              );
+              API.ToggleUserStatus(memberID.current.id).then(() => {
+                setLoading(false);
+              });
             }
             setLoading(false);
-            setError("No Member Selected!");
           } catch ({ message }) {
             setLoading(false);
             setError(message);
           }
+          break;
       }
     }
   };
@@ -115,10 +115,19 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
             >
               &times;
             </button>
-            <ModalNav state={state} setState={setState} />
+            <ModalNav
+              state={state}
+              setState={setState}
+              member={member}
+              setMember={setMember}
+              error={error}
+              setError={setError}
+            />
             <form onSubmit={onSubmit}>
               {state === "Add" && (
                 <AddForm
+                  state={state}
+                  setState={setState}
                   firstName={firstName}
                   lastName={lastName}
                   email={email}
@@ -129,6 +138,10 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
               {state === "Edit" && (
                 <>
                   <EditForm
+                    state={state}
+                    setState={setState}
+                    member={member}
+                    setMember={setMember}
                     firstName={firstName}
                     lastName={lastName}
                     email={email}
@@ -140,12 +153,18 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
               )}
               {state === "Delete" && (
                 <>
-                  <DeleteForm memberID={memberID} />
+                  <DeleteForm
+                    state={state}
+                    setState={setState}
+                    memberID={memberID}
+                    member={member}
+                    setMember={setMember}
+                  />
                 </>
               )}
               <div className="btn-div">
                 {state && loading && !error && (
-                  <button class="btn btn-primary" type="button" disabled="true">
+                  <button class="btn btn-primary" type="button" disabled={true}>
                     <span
                       class="spinner-border spinner-border-sm"
                       role="status"
@@ -155,18 +174,26 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                   </button>
                 )}
                 {state && !loading && error && (
-                  <button class="btn btn-danger " type="button" disabled="true">
-                    <span
-                      class="spinner-border spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
+                  <button
+                    class="btn btn-danger btn-blocks"
+                    type="button"
+                    disabled={true}
+                  >
                     <i class="far fa-times-circle"></i>
                   </button>
                 )}
                 {state && !loading && !error && (
                   <button type="submit" className="btn btn-primary">
-                    {state}
+                    {state === "Delete" &&
+                      member &&
+                      member.active === "true" &&
+                      "Deactivate"}
+                    {state === "Delete" &&
+                      member &&
+                      member.active === "false" &&
+                      "Activate"}
+                    {state === "Delete" && !member && "Select One..."}
+                    {state !== "Delete" && state + " Member"}
                   </button>
                 )}
               </div>

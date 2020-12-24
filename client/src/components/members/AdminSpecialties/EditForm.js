@@ -9,17 +9,20 @@ function EditForm({
   phoneNumber,
   admin,
   memberID,
+  state,
+  setState,
+  member,
+  setMember,
 }) {
   const [allMembers, setAllMembers] = useState(null);
-  const [specificMember, setSpecificMember] = useState(null);
   useEffect(() => {
     API.GetAllMembers().then(({ data }) => {
       setAllMembers(data);
     });
-  }, []);
+  }, [member]);
   const getMember = (e) => {
     API.GetOneMember(e.target.id).then(({ data }) => {
-      setSpecificMember(data);
+      setMember(data);
     });
   };
   return (
@@ -55,7 +58,7 @@ function EditForm({
               )}
           </tbody>
         </table>
-        {specificMember && (
+        {member && (
           <>
             <EditSpecificMember
               firstName={firstName}
@@ -63,8 +66,8 @@ function EditForm({
               email={email}
               phoneNumber={phoneNumber}
               admin={admin}
-              specificMember={specificMember}
-              setSpecificMember={setSpecificMember}
+              member={member}
+              setMember={setMember}
               memberID={memberID}
             />
           </>
