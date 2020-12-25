@@ -16,9 +16,9 @@ function MemberCardModel({ open, setOpen, _id }) {
   return (
     <>
       {open && (
-        <div id="myModal" class="member-card-modal">
+        <div id="myModal" className="member-card-modal">
           <div
-            class={
+            className={
               userData.admin
                 ? "member-card-modal-content-admin justify-center"
                 : "member-card-modal-content justify-center"
@@ -26,7 +26,7 @@ function MemberCardModel({ open, setOpen, _id }) {
             key={_id}
           >
             <button
-              class="close"
+              className="close"
               style={{ pointer: "cursor" }}
               onClick={(e) => setOpen(false)}
             >

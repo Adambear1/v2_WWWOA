@@ -38,10 +38,11 @@
     margin: 15vh auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 50% !important; 
     right: 10% !important;
     left: 10% !important;
+    width: 400px;
     height: 70%;
+    border-radius: 20px;
   }
 
   .member-card-modal-content-admin{

@@ -19,7 +19,11 @@ var upload = multer({ storage });
 
 const { validation } = require("../../utils/Validation.js");
 const { json } = require("body-parser");
-
+const { IntroductoryEmail } = require("../../utils/Nodemailer");
+const {
+  _formattedEmail,
+  _formattedPhoneNumber,
+} = require("../../utils/Formatting");
 // Get All ##SECURED##
 router.get("/", (req, res) => {
   try {
@@ -79,9 +83,7 @@ router.get("/:id", ({ params }, res) => {
 router.post("/", ({ body }, res) => {
   try {
     try {
-      // If email formation
       validation.email(body.email);
-      // If email already exists
       db.Members.find({}, ["email"]).then((data) => {
         data.forEach(({ email }) => {
           if (email === body.email) {
@@ -93,9 +95,7 @@ router.post("/", ({ body }, res) => {
       return res.status(400).json({ error: "Email is not valid" });
     }
     try {
-      // If telephone formation
       validation.phoneNumber(body.phoneNumber);
-      // If telephone already exists
       db.Members.find({}, ["phoneNumber"]).then((data) => {
         data.forEach(({ phoneNumber }) => {
           if (phoneNumber === body.phoneNumber) {
@@ -108,13 +108,21 @@ router.post("/", ({ body }, res) => {
     } catch (err) {
       return res.status(400).json({ error: "Phone Number is not valid" });
     }
+    let formattedEmail = _formattedEmail(body.email);
+    let formattedPhoneNumber = _formattedPhoneNumber(body.phoneNumber);
     db.Members.create({
       firstName: body.firstName,
       lastName: body.lastName,
       password: cryptr.encrypt(body.password),
-      email: body.email,
-      phoneNumber: body.phoneNumber,
+      email: formattedEmail,
+      phoneNumber: formattedPhoneNumber,
     }).then((data) => {
+      IntroductoryEmail({
+        firstName: body.firstName,
+        lastName: body.lastName,
+        email: formattedEmail,
+        phoneNumber: formattedPhoneNumber,
+      });
       return res.json(data);
     });
   } catch (error) {
@@ -125,9 +133,10 @@ router.post("/", ({ body }, res) => {
 // Login User
 router.put("/login", async ({ body }, res) => {
   const { email, password } = await body;
+  const formattedEmail = _formattedEmail(email);
   try {
-    let data = await db.Members.findOne({ email: email });
-    if (data) {
+    let data = await db.Members.findOne({ email: formattedEmail });
+    if ({ data }) {
       if (cryptr.decrypt(data.password) === password) {
         return res.json(data);
       } else {
@@ -163,8 +172,8 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
     picture,
     admin,
   } = body;
-  let formattedEmail = email.toLowerCase().trim();
-  let formattedPhoneNumber = phoneNumber.replace(/-/g, "").trim();
+  let formattedEmail = _formattedEmail(email);
+  let formattedPhoneNumber = _formattedPhoneNumber(phoneNumber);
   try {
     if (password) {
       db.Members.findOneAndUpdate(

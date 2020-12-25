@@ -49,7 +49,7 @@ function MembersList() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <>
-      <div className="members-card-container">
+      <div className="members-card-container m-5">
         {currentPosts &&
           currentPosts.map(
             ({ firstName, lastName, email, picture, phoneNumber, _id }) => (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 import API from "../../../utils/API";
+import { _formattedPhoneNumberAddHyphen } from "../../../utils/Formatting";
 
 function DeleteForm({ memberID, member, setMember }) {
   const [allMembers, setAllMembers] = useState(null);
@@ -67,7 +68,7 @@ function DeleteForm({ memberID, member, setMember }) {
                         allMembers[index].active === false ? "false" : "true"
                       }
                     >
-                      {data.phoneNumber}
+                      {_formattedPhoneNumberAddHyphen(data.phoneNumber)}
                     </td>
                     <td
                       id={index}

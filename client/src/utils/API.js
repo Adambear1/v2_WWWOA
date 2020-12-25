@@ -3,10 +3,10 @@ const membersUrl =
   process.env.NODE_ENV === "production"
     ? "/api/members"
     : "http://localhost:5000/api/members/";
-const updatesUrl =
+const announcementsUrl =
   process.env.NODE_ENV === "production"
-    ? "/api/updates"
-    : "http://localhost:5000/api/updates/";
+    ? "/api/announcements"
+    : "http://localhost:5000/api/announcements/";
 
 export default {
   Login: (data) => {
@@ -33,7 +33,10 @@ export default {
   ToggleUserStatus: (id) => {
     return axios.put(membersUrl + "status/" + id);
   },
-  GetUpdates: () => {
-    return axios.get(updatesUrl);
+  GetAnnouncements: () => {
+    return axios.get(announcementsUrl);
+  },
+  PostAnnouncements: (data) => {
+    return axios.post(announcementsUrl, data);
   },
 };

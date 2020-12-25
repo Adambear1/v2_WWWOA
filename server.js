@@ -40,6 +40,7 @@ const { userLeave } = require("./utils/Users");
 
 // API Routes //
 app.use("/api/members", require("./routes/API/Members"));
+app.use("/api/announcements", require("./routes/API/Announcements"));
 
 // Deployment //
 if (process.env.NODE_ENV === "production") {

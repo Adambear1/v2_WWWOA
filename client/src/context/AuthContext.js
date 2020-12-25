@@ -19,11 +19,12 @@ export function AuthProvider({ children }) {
   async function login(input) {
     try {
       let user = await API.SignInWithEmailAndPassword(input);
-      const { email, admin, _id } = user.data;
+      const { email, firstName, lastName, admin, _id } = user.data;
+      localStorage.setItem("name", firstName + " " + lastName);
       localStorage.setItem("email", email);
       localStorage.setItem("admin", admin);
       localStorage.setItem("_id", _id);
-      setCurrentUser({ email, admin, _id });
+      setCurrentUser({ email, name: firstName + " " + lastName, admin, _id });
       return user;
     } catch ({ message }) {
       return message;
@@ -43,6 +44,7 @@ export function AuthProvider({ children }) {
       localStorage.removeItem("email");
       localStorage.removeItem("admin");
       localStorage.removeItem("_id");
+      localStorage.removeItem("name");
     } catch (e) {
       throw e;
     }

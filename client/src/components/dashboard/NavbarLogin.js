@@ -26,11 +26,17 @@ function NavbarLogin() {
         if (data.error) {
           return setError(data.error);
         } else {
-          const { email, admin, _id } = data;
+          const { email, admin, firstName, lastName, _id } = data;
           localStorage.setItem("email", email);
           localStorage.setItem("admin", admin);
+          localStorage.setItem("name", firstName + " " + lastName);
           localStorage.setItem("_id", _id);
-          setCurrentUser({ email, admin, _id });
+          setCurrentUser({
+            email,
+            name: firstName + " " + lastName,
+            admin,
+            _id,
+          });
           return history.push("/members");
         }
       });

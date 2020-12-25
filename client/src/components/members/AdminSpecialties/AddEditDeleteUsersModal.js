@@ -5,6 +5,10 @@ import DeleteForm from "./DeleteForm";
 import EditForm from "./EditForm";
 import ModalNav from "./ModalNav";
 import "./styles.css";
+import {
+  _formattedEmail,
+  _formattedPhoneNumber,
+} from "../../../utils/Formatting";
 
 function AddEditDeleteUsersModal({ open, setOpen }) {
   const [state, setState] = useState("Add");
@@ -69,8 +73,8 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
               API.UpdateOneMember(memberID.current.id, {
                 firstName: firstName.current.value,
                 lastName: lastName.current.value,
-                email: email.current.value,
-                phoneNumber: phoneNumber.current.value,
+                email: _formattedEmail(email.current.value),
+                phoneNumber: _formattedPhoneNumber(phoneNumber.current.value),
                 admin: admin.current.value,
               }).then(() => {
                 setMember(null);
@@ -174,13 +178,17 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                   </button>
                 )}
                 {state && !loading && error && (
-                  <button
-                    class="btn btn-danger btn-blocks"
-                    type="button"
-                    disabled={true}
-                  >
-                    <i class="far fa-times-circle"></i>
-                  </button>
+                  <>
+                    <button
+                      class="btn btn-danger btn-blocks"
+                      type="button"
+                      disabled={true}
+                    >
+                      <i class="far fa-times-circle"></i>
+                    </button>
+                    <br />
+                    <small class="text-danger">{error}</small>
+                  </>
                 )}
                 {state && !loading && !error && (
                   <button type="submit" className="btn btn-primary">
