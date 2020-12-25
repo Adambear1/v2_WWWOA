@@ -54,11 +54,18 @@
     border: 2px solid black;
     color: white;
     -webkit-text-stroke: .5px black;
-    
+  }
+
+  .announcement-ready-delete{
+    border: 2px  solid rgb(185, 0, 0) ;
+  }
+
+  .announcements-card-hover-delete{
+    background-color: red;
   }
 
   .announcements-container{
-    height: 550px;
+    height: 590px;
     position: relative;
     background-color:rgb(36, 36, 36);
     border-radius: 20px;

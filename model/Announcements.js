@@ -15,6 +15,10 @@ const AnnouncementsSchema = mongoose.Schema({
     trim: true,
     required: [true, "Name Required"],
   },
+  archive: {
+    type: Boolean,
+    default: false,
+  },
   date: {
     type: Date,
     default: new Date(),

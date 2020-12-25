@@ -8,7 +8,7 @@ function CreateAnnouncement({ open, setOpen }) {
       <CreateAnnouncementModal open={open} setOpen={setOpen} />
       <button
         type="button"
-        class="btn btn-secondary btn-lg btn-block announcement-create-btn"
+        class="btn btn-info btn-lg btn-block announcement-create-btn"
         onClick={() => setOpen(true)}
       >
         Create New Announcement

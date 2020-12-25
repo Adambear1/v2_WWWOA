@@ -35,4 +35,14 @@ router.post("/", ({ body }, res) => {
   }
 });
 
+router.put("/:id", ({ params }, res) => {
+  try {
+    const _id = params.id;
+    db.Announcements.findOneAndUpdate(
+      { _id },
+      { archive: true }
+    ).then(({ data }) => {});
+  } catch (error) {}
+});
+
 module.exports = router;

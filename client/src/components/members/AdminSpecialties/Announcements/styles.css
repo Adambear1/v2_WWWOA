@@ -42,6 +42,12 @@
 
 .announcement-create-btn{
   position: absolute !important;
+  bottom:48px;
+  left: 0px;
+}
+
+.announcement-delete-btn{
+  position: absolute !important;
   bottom:0px;
   left: 0px;
 }

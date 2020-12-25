@@ -26,7 +26,12 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   );
 };
 
-function AnnouncementsList() {
+function AnnouncementsList({
+  readyDelete,
+  setReadyDelete,
+  confirmDelete,
+  setConfirmDelete,
+}) {
   const [messages, setMessages] = useState(null);
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,6 +54,10 @@ function AnnouncementsList() {
               <AnnouncementsListCard
                 index={index}
                 key={_id}
+                readyDelete={readyDelete}
+                setReadyDelete={setReadyDelete}
+                confirmDelete={confirmDelete}
+                setConfirmDelete={setConfirmDelete}
                 name={name}
                 title={title}
                 message={message}
