@@ -10,7 +10,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   }
 
   return (
-    <nav>
+    <nav className="announcements-pagination">
       <ul className="pagination">
         {pageNumbers.map((number) => (
           <button style={{ padding: 0 }}>
@@ -41,12 +41,13 @@ function AnnouncementsList() {
     });
   }, []);
   return (
-    <>
+    <div className="announcements-list">
       {currentPosts &&
-        currentPosts.map(({ name, title, message, date, _id }) => (
+        currentPosts.map(({ name, title, message, date, _id }, index) => (
           <>
             <>
               <AnnouncementsListCard
+                index={index}
                 key={_id}
                 name={name}
                 title={title}
@@ -62,7 +63,7 @@ function AnnouncementsList() {
         totalPosts={posts.length}
         paginate={paginate}
       />
-    </>
+    </div>
   );
 }
 

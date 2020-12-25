@@ -17,8 +17,23 @@ const _formattedPhoneNumberAddHyphen = (phoneNumber) => {
   return phoneNumber_value;
 };
 
+const _formatDate = (d) => {
+  let date = new Date(d);
+  let dd = date.getDate();
+  let mm = date.getMonth() + 1;
+  let yyyy = date.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  return (d = mm + "/" + dd + "/" + yyyy);
+};
+
 module.exports = {
   _formattedEmail,
   _formattedPhoneNumber,
   _formattedPhoneNumberAddHyphen,
+  _formatDate,
 };

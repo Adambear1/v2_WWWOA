@@ -1,4 +1,4 @@
-.jumbotron{
+.home-jumbotron{
     background: url("./assets/wrestling.jpg"); 
     height: 400px;
     object-fit: contain !important;
@@ -9,7 +9,7 @@
     -webkit-filter: blur(2px);
     border: 2px solid rgb(56, 56, 56);
 }
-.jumbotron::after{
+.home-jumbotron::after{
     content: "";
     top: 0px !important;
     left: 0px !important;

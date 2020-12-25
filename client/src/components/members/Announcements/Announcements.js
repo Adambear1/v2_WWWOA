@@ -6,7 +6,7 @@ function Announcements() {
   const { currentUser, setCurrentUser } = useAuth();
   const [open, setOpen] = useState(null);
   return (
-    <div>
+    <div className="my-5 mx-3 announcements-container">
       <AnnouncementsList />
       {currentUser.admin === true && (
         <CreateAnnouncement setOpen={setOpen} open={open} />

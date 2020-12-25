@@ -4,7 +4,7 @@ import "./styles.css";
 function Jumbotron() {
   return (
     <>
-      <div className="jumbotron jumbotron-fluid"></div>
+      <div className="jumbotron jumbotron-fluid home-jumbotron"></div>
       <div className="container">
         <h1 className="display-4 jumbotron-header-text animate__animated animate__fadeInDownBig">
           WWWOA

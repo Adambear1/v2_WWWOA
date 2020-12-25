@@ -39,4 +39,8 @@ export default {
   PostAnnouncements: (data) => {
     return axios.post(announcementsUrl, data);
   },
+  //
+  RandomQuote: () => {
+    return axios.get("https://type.fit/api/quotes/");
+  },
 };

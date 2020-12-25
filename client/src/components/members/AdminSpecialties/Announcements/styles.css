@@ -37,3 +37,11 @@
   .btn-locked {
       cursor:not-allowed;
   }
+
+  
+
+.announcement-create-btn{
+  position: absolute !important;
+  bottom:0px;
+  left: 0px;
+}

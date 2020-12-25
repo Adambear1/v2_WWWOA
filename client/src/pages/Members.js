@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import AddEditDeleteUsersModal from "../components/members/AdminSpecialties/AddEditDeleteUsersModal";
 import Announcements from "../components/members/Announcements/Announcements";
+import Jumbotron from "../components/members/Jumbotron/Jumbotron";
 import MembersList from "../components/members/MembersList/MembersList";
 
 import Navbar from "../components/members/Navbar";
@@ -21,6 +22,7 @@ function Members() {
   return (
     <>
       <Navbar open={open} setOpen={setOpen} />
+      <Jumbotron name={currentUser && currentUser.name} />
       <div className="container">
         <AddEditDeleteUsersModal open={open} setOpen={setOpen} />
         <div className="row">

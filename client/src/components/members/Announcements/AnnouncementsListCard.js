@@ -1,17 +1,12 @@
 import React, { useState } from "react";
+import { _formatDate } from "../../../utils/Formatting";
 import AnnouncementsListCardModal from "./AnnouncementsListCardModal";
 import "./styles.css";
 
-function AnnouncementsListCard({ title, date, name, message, _id }) {
-  const [open, setOpen] = useState(false);
+function AnnouncementsListCard({ title, date, name, message, _id, index }) {
+  const [open, setOpen] = useState(null);
   return (
-    <div
-      class="card"
-      id={_id}
-      onClick={(e) => {
-        setOpen(true);
-      }}
-    >
+    <>
       <AnnouncementsListCardModal
         open={open}
         setOpen={setOpen}
@@ -20,13 +15,39 @@ function AnnouncementsListCard({ title, date, name, message, _id }) {
         name={name}
         message={message}
       />
-      <div class="card-horizontal">
-        <div class="card-body">
-          <h4 class="card-title">{title}</h4>
-          <p class="card-text">{date}</p>
+      <div
+        data-index={index}
+        class="card announcement-card"
+        id={_id}
+        onClick={() => {
+          setOpen(true);
+        }}
+        onMouseOver={(e) => {
+          document
+            .querySelectorAll(".announcement-card")
+            [e.target.dataset.index].classList.add("announcements-card-hover");
+        }}
+        onMouseOut={(e) => {
+          document
+            .querySelectorAll(".announcement-card")
+            [e.target.dataset.index].classList.remove(
+              "announcements-card-hover"
+            );
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <div class="card-horizontal" data-index={index}>
+          <div class="card-body" data-index={index}>
+            <h4 class="card-title" data-index={index}>
+              {title}
+            </h4>
+            <p class="card-text" data-index={index}>
+              {_formatDate(date)}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

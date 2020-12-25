@@ -1,12 +1,13 @@
 import React from "react";
 import "./styles.css";
+import { _formatDate } from "../../../utils/Formatting";
 function AnnouncementsListCardModal({
   name,
   date,
   title,
   message,
-  open,
   setOpen,
+  open,
 }) {
   return (
     <>
@@ -14,17 +15,17 @@ function AnnouncementsListCardModal({
         <div id="myModal" class="announcements-modal">
           <div class="announcements-modal-content">
             <span
-              class="close"
-              onClick={(e) => {
+              onClick={() => {
                 setOpen(false);
               }}
+              class="close"
             >
               &times;
             </span>
-            <p>{title}</p>
-            <p>{message}</p>
+            <h1>{title}</h1>
+            <h6>{message}</h6>
             <p>{name}</p>
-            <p>{date}</p>
+            <p>{_formatDate(date)}</p>
           </div>
         </div>
       )}
