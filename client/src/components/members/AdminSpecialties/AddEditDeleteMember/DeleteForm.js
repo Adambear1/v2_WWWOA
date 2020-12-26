@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import API from "../../../utils/API";
-import { _formattedPhoneNumberAddHyphen } from "../../../utils/Formatting";
+import API from "../../../../utils/API";
+import { _formattedPhoneNumberAddHyphen } from "../../../../utils/Formatting";
 
-function DeleteForm({ memberID, member, setMember }) {
+function DeleteForm({ memberID, member, setMember, loading }) {
   const [allMembers, setAllMembers] = useState(null);
   useEffect(() => {
     API.GetAllMembers().then(({ data }) => {
       setAllMembers(data);
     });
-  }, []);
+  }, [loading]);
+  console.log(loading);
   return (
     <>
       <form>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
-import AddEditDeleteUsersModal from "../components/members/AdminSpecialties/AddEditDeleteUsersModal";
+import AddEditDeleteUsersModal from "../components/members/AdminSpecialties/AddEditDeleteMember/AddEditDeleteUsersModal";
 import Announcements from "../components/members/Announcements/Announcements";
 import Jumbotron from "../components/members/Jumbotron/Jumbotron";
 import MembersList from "../components/members/MembersList/MembersList";

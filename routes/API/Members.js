@@ -116,6 +116,7 @@ router.post("/", ({ body }, res) => {
       password: cryptr.encrypt(body.password),
       email: formattedEmail,
       phoneNumber: formattedPhoneNumber,
+      admin: body.admin,
     }).then((data) => {
       IntroductoryEmail({
         firstName: body.firstName,
@@ -146,7 +147,7 @@ router.put("/login", async ({ body }, res) => {
       return res.json({ error: "Invalid Member Email!" });
     }
   } catch ({ message }) {
-    return res.json(message);
+    return res.json({ message: message });
   }
 });
 
@@ -163,15 +164,7 @@ router.put("/reset", ({ email }, res) => {
 
 // Update User
 router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
-  const {
-    firstName,
-    lastName,
-    password,
-    email,
-    phoneNumber,
-    picture,
-    admin,
-  } = body;
+  const { firstName, lastName, password, email, phoneNumber, picture } = body;
   let formattedEmail = _formattedEmail(email);
   let formattedPhoneNumber = _formattedPhoneNumber(phoneNumber);
   try {
@@ -185,7 +178,7 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
           email: formattedEmail,
           phoneNumber: formattedPhoneNumber,
           picture,
-          admin,
+          admin: body.admin ? body.admin : false,
         }
       )
         .then((data) => {
@@ -202,7 +195,7 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
           lastName,
           email: formattedEmail,
           phoneNumber: formattedPhoneNumber,
-          admin: admin ? true : false,
+          admin: body.admin ? true : false,
         }
       )
         .then((data) => {

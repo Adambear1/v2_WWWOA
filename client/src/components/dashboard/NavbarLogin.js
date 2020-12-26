@@ -24,25 +24,40 @@ function NavbarLogin() {
         password: passwordRef.current.value,
       }).then(({ data }) => {
         if (data.error) {
-          return setError(data.error);
+          return setError({ message: "Forgot Password? Reset Here" });
         } else {
-          const { email, admin, firstName, lastName, _id } = data;
-          localStorage.setItem("email", email);
-          localStorage.setItem("admin", admin);
-          localStorage.setItem("name", firstName + " " + lastName);
-          localStorage.setItem("_id", _id);
-          setCurrentUser({
-            email,
-            name: firstName + " " + lastName,
-            admin,
-            _id,
-          });
-          return history.push("/members");
+          const { email, admin, firstName, lastName, _id, active } = data;
+          console.log(data);
+          if (data.message) {
+            return setError({
+              message: data.message,
+            });
+          }
+          if (active === false) {
+            return setError({
+              message:
+                "Account not active! Please speak to an admin to promptly reactive.",
+            });
+          } else {
+            localStorage.setItem("email", email);
+            localStorage.setItem("admin", admin);
+            localStorage.setItem("name", firstName + " " + lastName);
+            localStorage.setItem("_id", _id);
+            setCurrentUser({
+              email,
+              name: firstName + " " + lastName,
+              admin,
+              _id,
+            });
+            return history.push("/members");
+          }
         }
       });
-    } catch ({ message }) {
-      console.log(message);
-      setError({ message });
+    } catch (error) {
+      setError({
+        message:
+          "No Account Found! Please Reach Out to an Admin To Get Registered.",
+      });
     }
   };
 
@@ -91,13 +106,15 @@ function NavbarLogin() {
             setResetInfo={setResetInfo}
           />
           {error && (
-            <a
-              className="text-danger"
-              onClick={() => setOpen(!open)}
-              target="_blank"
-            >
-              Forgot Password? Reset Here
-            </a>
+            <>
+              <a
+                className="text-danger"
+                onClick={() => setOpen(!open)}
+                target="_blank"
+              >
+                {error.message}
+              </a>
+            </>
           )}
         </form>
       </div>

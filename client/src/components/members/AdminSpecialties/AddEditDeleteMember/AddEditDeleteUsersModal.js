@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import API from "../../../utils/API";
+import API from "../../../../utils/API";
 import AddForm from "./AddForm";
 import DeleteForm from "./DeleteForm";
 import EditForm from "./EditForm";
@@ -8,7 +8,7 @@ import "./styles.css";
 import {
   _formattedEmail,
   _formattedPhoneNumber,
-} from "../../../utils/Formatting";
+} from "../../../../utils/Formatting";
 
 function AddEditDeleteUsersModal({ open, setOpen }) {
   const [state, setState] = useState("Add");
@@ -21,7 +21,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
   const lastName = useRef();
   const email = useRef();
   const phoneNumber = useRef();
-  const admin = useRef();
+  const [admin, setAdmin] = useState(null);
   const memberID = useRef();
   const onSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                 lastName: lastName.current.value,
                 email: _formattedEmail(email.current.value),
                 phoneNumber: _formattedPhoneNumber(phoneNumber.current.value),
-                admin: admin.current.value,
+                admin,
               }).then(() => {
                 setMember(null);
                 setState("Edit");
@@ -95,7 +95,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
           try {
             if (memberID.current.id) {
               API.ToggleUserStatus(memberID.current.id).then(() => {
-                setLoading(false);
+                return setLoading(false);
               });
             }
             setLoading(false);
@@ -115,7 +115,11 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
             <button
               class="close"
               style={{ pointer: "cursor" }}
-              onClick={(e) => setOpen(false)}
+              onClick={(e) => {
+                setOpen(false);
+                setLoading(false);
+                setError(false);
+              }}
             >
               &times;
             </button>
@@ -137,6 +141,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                   email={email}
                   phoneNumber={phoneNumber}
                   admin={admin}
+                  setAdmin={setAdmin}
                 />
               )}
               {state === "Edit" && (
@@ -151,6 +156,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                     email={email}
                     phoneNumber={phoneNumber}
                     admin={admin}
+                    setAdmin={setAdmin}
                     memberID={memberID}
                   />
                 </>
@@ -163,6 +169,7 @@ function AddEditDeleteUsersModal({ open, setOpen }) {
                     memberID={memberID}
                     member={member}
                     setMember={setMember}
+                    loading={loading}
                   />
                 </>
               )}

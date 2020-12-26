@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import API from "../../../utils/API";
+import API from "../../../../utils/API";
 import EditSpecificMember from "./EditSpecificMember";
-import { _formattedPhoneNumberAddHyphen } from "../../../utils/Formatting";
+import { _formattedPhoneNumberAddHyphen } from "../../../../utils/Formatting";
 function EditForm({
   firstName,
   lastName,
   email,
   phoneNumber,
   admin,
+  setAdmin,
   memberID,
   state,
   setState,
@@ -76,6 +77,7 @@ function EditForm({
               email={email}
               phoneNumber={phoneNumber}
               admin={admin}
+              setAdmin={setAdmin}
               member={member}
               setMember={setMember}
               memberID={memberID}

@@ -16,6 +16,7 @@ function ProfileForm({ currentUser, setCurrentUser }) {
   const email = useRef();
   const phoneNumber = useRef();
   const password = useRef();
+  const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
     GetUser().then((data) => {
@@ -30,6 +31,7 @@ function ProfileForm({ currentUser, setCurrentUser }) {
       email.current.value = data.email;
       phoneNumber.current.value = data.phoneNumber;
       password.current.value = data.password;
+      setAdmin(data.admin);
       if (data.picture) {
         setPicture(data.picture);
       } else {
@@ -49,6 +51,7 @@ function ProfileForm({ currentUser, setCurrentUser }) {
         phoneNumber: phoneNumber.current.value,
         password: newPass ? newPass : password.current.value,
         picture,
+        admin,
       });
       setLoading(false);
       setSuccess("Successfully Updated!");

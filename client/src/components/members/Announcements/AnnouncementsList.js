@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import API from "../../../utils/API";
 import AnnouncementsListCard from "./AnnouncementsListCard";
+import "./styles.css";
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
@@ -13,7 +14,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     <nav className="announcements-pagination">
       <ul className="pagination">
         {pageNumbers.map((number) => (
-          <button style={{ padding: 0 }}>
+          <button type="btn" className="btn" style={{ padding: 0 }}>
             <li key={number} className="page-item">
               <a onClick={() => paginate(number)} className="page-link">
                 {number}
@@ -31,6 +32,7 @@ function AnnouncementsList({
   setReadyDelete,
   confirmDelete,
   setConfirmDelete,
+  open,
 }) {
   const [messages, setMessages] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -44,7 +46,7 @@ function AnnouncementsList({
     API.GetAnnouncements().then(({ data }) => {
       setPosts(data);
     });
-  }, []);
+  }, [open]);
   return (
     <div className="announcements-list">
       {currentPosts &&

@@ -78,6 +78,12 @@
     left: 35%;
   }
 
+  .announcements-pagination ul button {
+    border-radius: 50% !important;
+    border-radius: 2px solid black !important;
+  }
+
   .announcements-card-hover{
     background-color:rgb(65, 65, 65);
   }
+

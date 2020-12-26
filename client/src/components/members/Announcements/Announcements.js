@@ -11,6 +11,7 @@ function Announcements() {
   return (
     <div className="my-5 mx-3 announcements-container">
       <AnnouncementsList
+        open={open}
         readyDelete={readyDelete}
         setReadyDelete={setReadyDelete}
         confirmDelete={confirmDelete}

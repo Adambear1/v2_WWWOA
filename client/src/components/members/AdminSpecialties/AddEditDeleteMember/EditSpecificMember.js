@@ -8,6 +8,7 @@ function EditSpecificMember({
   email,
   phoneNumber,
   admin,
+  setAdmin,
   memberID,
 }) {
   return (
@@ -93,12 +94,13 @@ function EditSpecificMember({
                 class="custom-control-input"
                 id="admin"
                 name="admin"
-                ref={admin}
-                value={member.admin}
+                value={member.admin || admin}
                 onChange={(e) => {
+                  console.log(e.target.checked);
+                  setAdmin(e.target.checked);
                   setMember({
                     ...member,
-                    [e.target.name]: e.target.value,
+                    [e.target.name]: e.target.checked,
                   });
                 }}
               />

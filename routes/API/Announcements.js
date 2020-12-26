@@ -5,10 +5,11 @@ const { AnnouncementsEmail } = require("../../utils/Nodemailer");
 
 router.get("/", (req, res) => {
   try {
-    db.Announcements.find({}).then((data) => {
-      console.log(data);
-      return res.json(data);
-    });
+    db.Announcements.find({})
+      .sort({ date: -1 })
+      .then((data) => {
+        return res.json(data);
+      });
   } catch (error) {
     res.status(400).json(error);
     return;
@@ -18,7 +19,7 @@ router.get("/", (req, res) => {
 router.post("/", ({ body }, res) => {
   try {
     db.Announcements.create(body).then((data) => {
-      db.Members.find({}, ["email", "firstName"], { active: true }).then(
+      db.Members.find({ active: true }, ["email", "firstName", "active"]).then(
         (users) => {
           AnnouncementsEmail({
             users,

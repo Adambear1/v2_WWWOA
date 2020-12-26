@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import MemberCard from "./MemberCard";
+
 //
 import "./styles.css";
 
@@ -12,10 +13,10 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   }
 
   return (
-    <nav>
+    <nav className="member-pagination">
       <ul className="pagination">
         {pageNumbers.map((number) => (
-          <button style={{ padding: 0 }}>
+          <button type="btn" className="btn" style={{ padding: 0 }}>
             <li key={number} className="page-item">
               <a onClick={() => paginate(number)} className="page-link">
                 {number}
@@ -41,7 +42,7 @@ function MembersList() {
 
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
+  const [postsPerPage] = useState(7);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -49,7 +50,7 @@ function MembersList() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <>
-      <div className="members-card-container my-5 mx-3">
+      <div className="members-list my-5 mx-3">
         {currentPosts &&
           currentPosts.map(
             ({ firstName, lastName, email, picture, phoneNumber, _id }) => (
