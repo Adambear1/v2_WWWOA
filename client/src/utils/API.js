@@ -39,8 +39,8 @@ export default {
   PostAnnouncements: (data) => {
     return axios.post(announcementsUrl, data);
   },
-  ArchiveAnnouncement: (id) => {
-    return axios.put(announcementsUrl + id);
+  ArchiveAnnouncement: (data) => {
+    return axios.put(announcementsUrl, data);
   },
   //
   RandomQuote: () => {

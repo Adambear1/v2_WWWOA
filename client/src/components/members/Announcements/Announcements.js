@@ -6,8 +6,9 @@ import AnnouncementsList from "./AnnouncementsList";
 function Announcements() {
   const { currentUser, setCurrentUser } = useAuth();
   const [open, setOpen] = useState(null);
+  const [deleted, setDeleted] = useState(false);
   const [readyDelete, setReadyDelete] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState([]);
   return (
     <div className="my-5 mx-3 announcements-container">
       <AnnouncementsList
@@ -16,11 +17,15 @@ function Announcements() {
         setReadyDelete={setReadyDelete}
         confirmDelete={confirmDelete}
         setConfirmDelete={setConfirmDelete}
+        deleted={deleted}
+        setDeleted={setDeleted}
       />
       {currentUser.admin === true && (
         <>
           <CreateAnnouncement setOpen={setOpen} open={open} />
           <DeleteAnnouncements
+            deleted={deleted}
+            setDeleted={setDeleted}
             readyDelete={readyDelete}
             setReadyDelete={setReadyDelete}
             confirmDelete={confirmDelete}

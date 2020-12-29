@@ -32,6 +32,8 @@ function AnnouncementsList({
   setReadyDelete,
   confirmDelete,
   setConfirmDelete,
+  deleted,
+  setDeleted,
   open,
 }) {
   const [posts, setPosts] = useState([]);
@@ -43,9 +45,11 @@ function AnnouncementsList({
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   useEffect(() => {
     API.GetAnnouncements().then(({ data }) => {
+      setPosts([]);
       setPosts(data);
     });
-  }, [open]);
+  }, [open, deleted]);
+
   return (
     <div className="announcements-list">
       {currentPosts &&

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { _formatDate } from "../../../utils/Formatting";
 import AnnouncementsListCardModal from "./AnnouncementsListCardModal";
 import "./styles.css";
@@ -17,19 +17,7 @@ function AnnouncementsListCard({
 }) {
   const [open, setOpen] = useState(false);
   const [toggleShow, setToggleShow] = useState(true);
-  const [deleteCardAnimation, setDeleteCardAnimation] = useState("");
 
-  const toggleAnimation = (e) => {
-    try {
-      if (toggleShow) {
-        return setDeleteCardAnimation("smooth-transition-delete");
-      } else {
-        return setDeleteCardAnimation("smooth-transition-rescind");
-      }
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
   return (
     <>
       {!readyDelete && (
@@ -45,28 +33,31 @@ function AnnouncementsListCard({
       <div
         data-index={index}
         class={
-          !readyDelete
+          readyDelete === false
             ? "card announcement-card"
             : "card announcement-card announcement-ready-delete"
         }
         id={_id}
         onClick={(e) => {
           {
-            !readyDelete
-              ? setOpen(true)
-              : document
-                  .querySelectorAll(".announcement-card")
-                  [e.target.dataset.index].classList.add(
-                    "announcements-card-hover-delete"
-                  );
-            setConfirmDelete(
-              confirmDelete === e.target.id ? null : e.target.id
-            );
+            readyDelete === false && setOpen(true);
+          }
+          {
+            readyDelete === true &&
+              document
+                .querySelectorAll(".announcement-card")
+                [e.target.dataset.index].classList.add(
+                  "announcements-card-hover-delete"
+                );
+          }
+          {
+            readyDelete === true &&
+              setConfirmDelete([...confirmDelete, e.target.id]);
           }
         }}
         onMouseOver={(e) => {
           try {
-            !readyDelete
+            readyDelete === false
               ? document
                   .querySelectorAll(".announcement-card")
                   [e.target.dataset.index].classList.add(
@@ -83,7 +74,7 @@ function AnnouncementsListCard({
         }}
         onMouseOut={(e) => {
           try {
-            !readyDelete
+            readyDelete === false
               ? document
                   .querySelectorAll(".announcement-card")
                   [e.target.dataset.index].classList.remove(
@@ -104,8 +95,7 @@ function AnnouncementsListCard({
           class="card-horizontal"
           data-index={index}
           id={_id}
-          onClick={(e) => readyDelete && setToggleShow(!toggleShow)}
-          onMouseOver={(e) => readyDelete && toggleAnimation}
+          onClick={(e) => readyDelete === true && setToggleShow(!toggleShow)}
         >
           {toggleShow === true ? (
             <div class="card-body" data-index={index} id={_id}>
@@ -117,11 +107,7 @@ function AnnouncementsListCard({
               </p>
             </div>
           ) : (
-            <div
-              class={`card-body card-body-delete ${deleteCardAnimation}`}
-              data-index={index}
-              id={_id}
-            >
+            <div class="card-body card-body-delete" data-index={index} id={_id}>
               <i
                 class="fa fa-trash fa-2x mt-2 mx-auto"
                 aria-hidden="true"
