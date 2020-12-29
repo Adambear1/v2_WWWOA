@@ -8,13 +8,10 @@ function DeleteAnnouncements({
   setConfirmDelete,
 }) {
   const archiveAnnouncement = (e) => {
-    e.preventDefault();
-    console.log(confirmDelete);
-    // API.ArchiveAnnouncement(confirmDelete).then(()=>{
-
-    // })
+    API.ArchiveAnnouncement(confirmDelete).then(() => {
+      // window.location.reload();
+    });
   };
-  console.log(confirmDelete);
   return (
     <div>
       <button

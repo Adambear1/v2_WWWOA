@@ -5,7 +5,7 @@ const { AnnouncementsEmail } = require("../../utils/Nodemailer");
 
 router.get("/", (req, res) => {
   try {
-    db.Announcements.find({})
+    db.Announcements.find()
       .sort({ date: -1 })
       .then((data) => {
         return res.json(data);
@@ -39,11 +39,14 @@ router.post("/", ({ body }, res) => {
 router.put("/:id", ({ params }, res) => {
   try {
     const _id = params.id;
-    db.Announcements.findOneAndUpdate(
-      { _id },
-      { archive: true }
-    ).then(({ data }) => {});
-  } catch (error) {}
+    db.Announcements.findOneAndUpdate({ _id }, { archive: true }).then(
+      ({ data }) => {
+        return res.status(200).json(data);
+      }
+    );
+  } catch ({ message }) {
+    return res.status(500).json(message);
+  }
 });
 
 module.exports = router;

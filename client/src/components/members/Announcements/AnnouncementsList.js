@@ -34,7 +34,6 @@ function AnnouncementsList({
   setConfirmDelete,
   open,
 }) {
-  const [messages, setMessages] = useState(null);
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);

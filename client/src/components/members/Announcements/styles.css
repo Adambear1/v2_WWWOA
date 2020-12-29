@@ -56,14 +56,6 @@
     -webkit-text-stroke: .5px black;
   }
 
-  .announcement-ready-delete{
-    border: 2px  solid rgb(185, 0, 0) ;
-  }
-
-  .announcements-card-hover-delete{
-    background-color: red;
-  }
-
   .announcements-container{
     height: 590px;
     position: relative;
@@ -87,3 +79,24 @@
     background-color:rgb(65, 65, 65);
   }
 
+  .announcement-ready-delete{
+    border: 2px  solid rgb(185, 0, 0) ;
+  }
+
+  .announcements-card-hover-delete{
+    background-color: red;
+  }
+
+  .smooth-transition-delete{
+    width: 0px;
+    float: right;
+    right: 0px;
+    z-index: 999;
+    background-color: red;
+    -webkit-animation: expand 2s;
+  }
+  @-webkit-keyframes expand {
+    0%   { width:   0%; }
+    50%  { width:  50%; }
+    100% { width: 100%; }
+  }
