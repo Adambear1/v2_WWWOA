@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import AddEditDeleteUsersModal from "../components/members/AdminSpecialties/AddEditDeleteMember/AddEditDeleteUsersModal";
 import Announcements from "../components/members/Announcements/Announcements";
 import Jumbotron from "../components/members/Jumbotron/Jumbotron";
+import Calendar from "../components/members/MeetingCalendar/Calendar";
 import MembersList from "../components/members/MembersList/MembersList";
 
 import Navbar from "../components/members/Navbar";
@@ -31,6 +32,11 @@ function Members() {
           </div>
           <div className="col-12 col-sm-6">
             <MembersList />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <Calendar />
           </div>
         </div>
       </div>
