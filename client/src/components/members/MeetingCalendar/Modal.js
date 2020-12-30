@@ -4,6 +4,7 @@ import "./styles.css";
 function Modal({ open, setOpen, date, currentUser }) {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [location, setLocation] = useState("");
   const [error, setError] = useState(false);
   useMemo(() => {
     if (startTime && endTime) {
@@ -17,6 +18,7 @@ function Modal({ open, setOpen, date, currentUser }) {
   const onSubmit = (e) => {
     e.preventDefault();
     API.PostMeetings({
+      location,
       date,
       startTime,
       endTime,
@@ -39,6 +41,21 @@ function Modal({ open, setOpen, date, currentUser }) {
               &times;
             </span>
             <div class="form-group row mt-5">
+              <label for="example-time-input" class="col-2 col-form-label">
+                Location
+              </label>
+              <div class="col-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  id="location"
+                  name="location"
+                  onChange={(e) => setLocation(e.target.value)}
+                  required={true}
+                />
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="example-time-input" class="col-2 col-form-label">
                 Start
               </label>

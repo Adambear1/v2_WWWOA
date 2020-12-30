@@ -13,7 +13,7 @@ function Navbar({ open, setOpen }) {
       setCurrentUser(GetUser());
     }
   }, []);
-
+  console.log(currentUser);
   const onLogout = async (e) => {
     e.preventDefault();
     try {

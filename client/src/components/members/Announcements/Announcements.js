@@ -10,7 +10,13 @@ function Announcements() {
   const [readyDelete, setReadyDelete] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState([]);
   return (
-    <div className="my-5 mx-3 announcements-container">
+    <div
+      className={
+        currentUser.admin === true || currentUser.admin === "true"
+          ? "my-5 mx-3 announcements-container"
+          : "my-5 mx-3 announcements-container-not-admin"
+      }
+    >
       <AnnouncementsList
         open={open}
         readyDelete={readyDelete}
@@ -20,19 +26,20 @@ function Announcements() {
         deleted={deleted}
         setDeleted={setDeleted}
       />
-      {currentUser.admin === true && (
-        <>
-          <CreateAnnouncement setOpen={setOpen} open={open} />
-          <DeleteAnnouncements
-            deleted={deleted}
-            setDeleted={setDeleted}
-            readyDelete={readyDelete}
-            setReadyDelete={setReadyDelete}
-            confirmDelete={confirmDelete}
-            setConfirmDelete={setConfirmDelete}
-          />
-        </>
-      )}
+      {currentUser.admin === true ||
+        (currentUser.admin === "true" && (
+          <>
+            <CreateAnnouncement setOpen={setOpen} open={open} />
+            <DeleteAnnouncements
+              deleted={deleted}
+              setDeleted={setDeleted}
+              readyDelete={readyDelete}
+              setReadyDelete={setReadyDelete}
+              confirmDelete={confirmDelete}
+              setConfirmDelete={setConfirmDelete}
+            />
+          </>
+        ))}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const { _formattedTime, _formattedDate } = require("./Formatting");
 
 var transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -16,7 +17,7 @@ module.exports.IntroductoryEmail = ({
   phoneNumber,
 }) => {
   let mailOptions = {
-    from: "adamcarlbirgenheier@gmail.com",
+    from: "wwwoa.wrestling@gmail.com",
     to: email,
     subject: `A Message For ${firstName} ${lastName}`,
     text: ` Congratulations! Your WWWOA account has been activated by a representing executive board member!
@@ -46,7 +47,7 @@ module.exports.AnnouncementsEmail = ({ users, name, title, message }) => {
   console.log(users);
   users.map(({ email, firstName }) => {
     let mailOptions = {
-      from: "adamcarlbirgenheier@gmail.com",
+      from: "wwwoa.wrestling@gmail.com",
       to: email,
       subject: `WWWOA Announcement | ${title}`,
       text: ` Hi ${firstName},
@@ -55,6 +56,40 @@ module.exports.AnnouncementsEmail = ({ users, name, title, message }) => {
 
 
       ${message}
+        
+
+      -- Thanks,
+
+      ${name}
+
+        `,
+    };
+    transporter.sendMail(mailOptions, (err, data) => {
+      if (err) {
+        return err;
+      }
+      return log("Email sent!!!");
+    });
+  });
+};
+
+module.exports.MeetingsEmail = ({ users, name, location, time, date }) => {
+  time = _formattedTime(time);
+  date = _formattedDate(date);
+  users.map(({ email, firstName }) => {
+    let mailOptions = {
+      from: "wwwoa.wrestling@gmail.com",
+      to: email,
+      subject: `WWWOA New Meeting | ${title}`,
+      text: ` Hi ${firstName},
+
+      A new meeting has just been scheduled:
+      
+      Date: ${date}
+      
+      Time: ${time}
+
+      Location: ${location}
         
 
       -- Thanks,

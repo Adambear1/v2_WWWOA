@@ -45,7 +45,11 @@
   }
 
   .announcements-list{
-    height: 575px !important;
+    height: 575px ;
+  }
+
+  .announcements-list-not-member{
+    height: 450px !important;
   }
 
   .announcement-card{
@@ -62,12 +66,25 @@
     background-color:rgb(36, 36, 36);
     border-radius: 20px;
   }
+  .announcements-container-not-admin{
+    height: 500px !important;
+    position: relative;
+    background-color:rgb(36, 36, 36);
+    border-radius: 20px;
+  }
 
   .announcements-pagination{
     position: absolute;
-    bottom: -60px;
+    bottom: -85px;
     right: 35%;
     left: 35%;
+  }
+
+  .announcements-pagination-not-member{
+    position: absolute;
+    right: 35%;
+    left: 35%;
+    bottom: -75px !important
   }
 
   .announcements-pagination ul button {

@@ -13,6 +13,10 @@ const MeetingsSchema = mongoose.Schema({
     type: String,
     required: [true, "End Time Required"],
   },
+  location: {
+    type: String,
+    required: [true, "Location Required"],
+  },
   name: {
     type: String,
     trim: true,
