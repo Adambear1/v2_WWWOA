@@ -7,11 +7,16 @@ const announcementsUrl =
   process.env.NODE_ENV === "production"
     ? "/api/announcements"
     : "http://localhost:5000/api/announcements/";
+const meetingsUrl =
+  process.env.NODE_ENV === "production"
+    ? "/api/meetings"
+    : "http://localhost:5000/api/meetings/";
 
 export default {
   Login: (data) => {
     return axios.put(membersUrl + "login", data);
   },
+  //
   GetAllMembers: () => {
     return axios.get(membersUrl);
   },
@@ -33,6 +38,7 @@ export default {
   ToggleUserStatus: (id) => {
     return axios.put(membersUrl + "status/" + id);
   },
+  //
   GetAnnouncements: () => {
     return axios.get(announcementsUrl);
   },
@@ -41,6 +47,13 @@ export default {
   },
   ArchiveAnnouncement: (data) => {
     return axios.put(announcementsUrl, data);
+  },
+  //
+  GetAllMeetings: () => {
+    return axios.get(meetingsUrl);
+  },
+  PostMeetings: (data) => {
+    return axios.post(meetingsUrl, data);
   },
   //
   RandomQuote: () => {
