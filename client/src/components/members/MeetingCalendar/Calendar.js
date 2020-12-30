@@ -67,23 +67,24 @@ function Calendar() {
             e.target.parentNode.parentNode.classList.contains("rdrDayDisabled")
           ) {
             if (e.target.id) {
-              e.target.title = `Meeting Day!
-                  ${FormDate(disabledDates[e.target.id])}
-                    ${time[e.target.id]}
+              e.target.title = `Meeting Day!On ${FormDate(
+                disabledDates[e.target.id]
+              )} from ${time[e.target.id]}
                   `;
             }
             if (e.target.parentNode.id) {
-              e.target.title = `Meeting Day!
-                  ${FormDate(disabledDates[e.target.parentNode.id])}
-                    ${time[e.target.parentNode.id]}
+              e.target.title = `Meeting Day! On ${FormDate(
+                disabledDates[e.target.parentNode.id]
+              )} from ${time[e.target.parentNode.id]}
                   `;
             }
             if (e.target.parentNode.parentNode.id) {
-              e.target.title = `Meeting Day!
-                  ${FormDate(disabledDates[e.target.parentNode.parentNode.id])}
-                    ${time[e.target.parentNode.parentNode.id]}
+              e.target.title = `Meeting Day! On ${FormDate(
+                disabledDates[e.target.parentNode.parentNode.id]
+              )} from ${time[e.target.parentNode.parentNode.id]}
                   `;
             }
+            console.log(e.target);
           }
         }}
       >

@@ -28,14 +28,23 @@ function Members() {
         <AddEditDeleteUsersModal open={open} setOpen={setOpen} />
         <div className="row">
           <div className="col-12 col-sm-6">
+            <h1 className="mt-5" style={{ color: "white" }} id="announcements">
+              Announcements
+            </h1>
             <Announcements />
           </div>
           <div className="col-12 col-sm-6">
+            <h1 className="mt-5" style={{ color: "white" }} id="members">
+              Members List
+            </h1>
             <MembersList />
           </div>
         </div>
         <div className="row">
           <div className="col-12">
+            <h1 className="mt-5" style={{ color: "white" }} id="meetings">
+              Meeting Calendar
+            </h1>
             <Calendar />
           </div>
         </div>

@@ -17,7 +17,6 @@ function ProfileForm({ currentUser, setCurrentUser }) {
   const phoneNumber = useRef();
   const password = useRef();
   const [admin, setAdmin] = useState(null);
-
   useEffect(() => {
     GetUser().then((data) => {
       setCurrentUser(data);

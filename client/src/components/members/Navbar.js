@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-scroll";
 import { Link as HistoryLink, useHistory } from "react-router-dom";
+import GetUser from "../../utils/GetUser";
 
 function Navbar({ open, setOpen }) {
-  const { currentUser, setCurrentUser } = useAuth();
   const { logout } = useAuth();
-
+  const { currentUser, setCurrentUser } = useAuth();
   const history = useHistory();
+  useEffect(() => {
+    if (!currentUser) {
+      setCurrentUser(GetUser());
+    }
+  }, []);
+
   const onLogout = async (e) => {
     e.preventDefault();
     try {
@@ -47,6 +53,21 @@ function Navbar({ open, setOpen }) {
             <a class="nav-link">
               <Link
                 activeClass="active"
+                to="announcements"
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+                style={{ cursor: "pointer" }}
+              >
+                Announcements
+              </Link>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <Link
+                activeClass="active"
                 to="members"
                 spy={true}
                 smooth={true}
@@ -62,7 +83,7 @@ function Navbar({ open, setOpen }) {
             <a class="nav-link">
               <Link
                 activeClass="active"
-                to="about"
+                to="meetings"
                 spy={true}
                 smooth={true}
                 offset={50}

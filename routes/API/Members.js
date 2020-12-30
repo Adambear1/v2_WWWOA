@@ -178,7 +178,7 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
           email: formattedEmail,
           phoneNumber: formattedPhoneNumber,
           picture,
-          admin: body.admin ? body.admin : false,
+          admin: body.admin && body.admin,
         }
       )
         .then((data) => {
@@ -195,7 +195,7 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
           lastName,
           email: formattedEmail,
           phoneNumber: formattedPhoneNumber,
-          admin: body.admin ? true : false,
+          admin: body.admin && body.admin,
         }
       )
         .then((data) => {
@@ -206,7 +206,6 @@ router.put("/profile/:id", upload.single("file"), ({ params, body }, res) => {
         });
     }
   } catch ({ message }) {
-    console.log(message);
     return res.status(500).json(message);
   }
 });
