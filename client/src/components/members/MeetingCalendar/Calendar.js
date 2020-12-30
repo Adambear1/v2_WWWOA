@@ -5,6 +5,8 @@ import Modal from "./Modal";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import "./styles.css";
+import FormDate from "../../../utils/FormDate";
+import FormTime from "../../../utils/FormTime";
 import API from "../../../utils/API";
 
 function Calendar() {
@@ -22,13 +24,23 @@ function Calendar() {
 
   useMemo(() => {
     API.GetAllMeetings().then(({ data }) => {
-      let arr = [];
-      data.map(({ date }) => {
-        arr.push(new Date(date));
+      let timeArr = [];
+      let dateArr = [];
+      data.map(({ date, endTime, startTime }) => {
+        timeArr.push(`${FormTime(startTime)}-${FormTime(endTime)}`);
+        dateArr.push(new Date(date));
       });
-      return setDisabledDates(arr);
+      setTime(timeArr);
+      setDisabledDates(dateArr);
     });
   }, [currentUser]);
+  for (
+    let i = 0;
+    i < document.querySelectorAll(".rdrDayDisabled").length;
+    i++
+  ) {
+    document.querySelectorAll(".rdrDayDisabled")[i].id = i;
+  }
   useMemo(() => {
     try {
       if (currentUser.admin === true && startDate === endDate) {
@@ -54,7 +66,24 @@ function Calendar() {
             e.target.parentNode.classList.contains("rdrDayDisabled") ||
             e.target.parentNode.parentNode.classList.contains("rdrDayDisabled")
           ) {
-            e.target.title = "Meeting Day!";
+            if (e.target.id) {
+              e.target.title = `Meeting Day!
+                  ${FormDate(disabledDates[e.target.id])}
+                    ${time[e.target.id]}
+                  `;
+            }
+            if (e.target.parentNode.id) {
+              e.target.title = `Meeting Day!
+                  ${FormDate(disabledDates[e.target.parentNode.id])}
+                    ${time[e.target.parentNode.id]}
+                  `;
+            }
+            if (e.target.parentNode.parentNode.id) {
+              e.target.title = `Meeting Day!
+                  ${FormDate(disabledDates[e.target.parentNode.parentNode.id])}
+                    ${time[e.target.parentNode.parentNode.id]}
+                  `;
+            }
           }
         }}
       >
